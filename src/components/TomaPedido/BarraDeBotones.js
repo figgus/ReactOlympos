@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useContext } from 'react';
+﻿import React, {  useEffect, useContext } from 'react';
 import { TomaPedidoContext } from '../../Context/TomaPedidoContext';
 import { FuncionGeneral, GetFetchHeaders,GetUrlApi} from '../Globales/FuncionesGlobales';
 import { Link } from 'react-router-dom'
@@ -53,8 +53,7 @@ export function BarraDeBotones() {
     };
 
     return (
-        <React.Fragment>
-            <footer class="page-footer" style={{ position: "fixed", bottom: 0, left: 0, width: '100%', backgroundColor: '#25a35b', overflow:'hidden' }}>
+            <footer className="page-footer" style={{ position: "fixed", bottom: 0, left: 0, width: '100%', backgroundColor: '#25a35b', overflowX:'hidden' }}>
                 
             <div class="row">
                 <div class="col s2">
@@ -89,6 +88,5 @@ export function BarraDeBotones() {
             </footer>
            
         
-
-    </React.Fragment>);
+);
 }

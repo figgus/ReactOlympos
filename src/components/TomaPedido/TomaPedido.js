@@ -6,6 +6,7 @@ import { UserContext } from '../../Context/UserContext';
 import { GetPrecioPorTipoPedido, GetTipoVenta, ClonarObjeto, GetPrecioFormateado ,GetFetchHeaders,GetUrlApi} from '../Globales/FuncionesGlobales';
 import { ModalPagar } from './ModalPagar';
 import { ModalDescuentos } from './ModalDescuentos';
+import { ModalEditar } from './ModalEditar';
 
 
 async function TraerCategorias() {
@@ -297,6 +298,7 @@ export function TomaPedido() {
                 <BarraDeBotones />
                 <ModalPagar />
                 <ModalDescuentos />
+                <ModalEditar />
             </TomaPedidoContext.Provider>
             
         </React.Fragment>

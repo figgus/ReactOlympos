@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect, useContext } from 'react';
-import { GetMediosDePago, ClonarObjeto, FuncionGeneral, GetFetchHeaders } from '../Globales/FuncionesGlobales';
+import { GetMediosDePago, ClonarObjeto, FuncionGeneral, GetFetchHeaders ,GetUrlApi} from '../Globales/FuncionesGlobales';
 import { TomaPedidoContext } from '../../Context/TomaPedidoContext';
 import swal from 'sweetalert';
 import { Vuelto } from '../TomaPedido/Vuelto';
@@ -63,7 +63,7 @@ export function ModalPagar() {
         datosOrden.mediosPorOrden = pagos;
         datosOrden.vuelto = getVuelto();
         contextoTomaPedido.setOrden(ClonarObjeto(datosOrden));
-        var respuesta = await fetch('/api/Ordenes/PagarOrden', {
+        var respuesta = await fetch(GetUrlApi()+'/api/Ordenes/PagarOrden', {
             method: 'put',
             headers: GetFetchHeaders(),
             body: JSON.stringify(datosOrden),

@@ -1,7 +1,7 @@
 ﻿import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router'
 import { TomaPedidoContext } from '../../Context/TomaPedidoContext';
-import { CerrarTodasLasModales, GetDocumentosSii } from '../Globales/FuncionesGlobales';
+import { CerrarTodasLasModales, GetDocumentosSii ,GetUrlApi} from '../Globales/FuncionesGlobales';
 
 export function Vuelto() {
     const M = window.M;

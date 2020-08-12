@@ -75,7 +75,7 @@ export function CerrarTodasLasModales() {
 }
 
 export async function GetDocumentosSii() {
-    var respuesta = await fetch(GetUrlApi()+'api/TiposDocumentos', {
+    var respuesta = await fetch(GetUrlApi()+'/api/TiposDocumentos', {
         method: 'get',
         headers: GetFetchHeaders()
     });
