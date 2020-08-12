@@ -18,6 +18,7 @@ export function Home() {
             const ordenesFormateadas = formatearArregloColumnas(resOrdenes,4); 
             setOrdenes(ordenesFormateadas);
         }
+        const a=1;
     };
 
     useEffect(() => {
