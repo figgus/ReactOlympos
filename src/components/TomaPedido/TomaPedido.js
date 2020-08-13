@@ -168,6 +168,14 @@ export function TomaPedido() {
        
     }, []);
 
+    const getTotal=()=>{
+        var res=0;
+        debugger
+        orden.productosPorOrden.forEach((productoOrden)=>{
+            res+= GetPrecioPorTipoPedido(productoOrden.productos, orden.tipoPedidoID)*productoOrden.cantidad;
+        });
+        return res;
+    };
 
     return (
         <React.Fragment>
@@ -277,7 +285,7 @@ export function TomaPedido() {
                                 })
                             }
                             <tr>
-                                <td><strong>Total:{GetPrecioFormateado(orden.total)}</strong></td>
+                                <td><strong>Total:{GetPrecioFormateado(getTotal())}</strong></td>
                                 <td><strong>Subtotal:{GetPrecioFormateado(orden.subtotal)}</strong></td>
                                 <td><strong>Descuento:{GetPrecioFormateado(orden.descuentoTotal)}</strong></td>
                             </tr>

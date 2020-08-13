@@ -1,10 +1,46 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { TomaPedidoContext } from '../../Context/TomaPedidoContext';
+import {ClonarObjeto} from '../Globales/FuncionesGlobales';
+import swal from 'sweetalert';
 
 
 export function ModalEditar(){
     const contextoOrden = useContext(TomaPedidoContext);
     const tamañoFuente='20px';
+
+    const clickMas=(indice)=>{
+        var nuevaOrden=contextoOrden.orden;
+        var productoClickeado= nuevaOrden.productosPorOrden[indice];
+        productoClickeado.cantidad=productoClickeado.cantidad+1;
+        contextoOrden.setOrden(ClonarObjeto(nuevaOrden));
+    };
+    const clickMenos=(indice)=>{
+        var nuevaOrden=contextoOrden.orden;
+        var productoClickeado= nuevaOrden.productosPorOrden[indice];
+        productoClickeado.cantidad=productoClickeado.cantidad-1;
+        if(productoClickeado.cantidad<1){
+            return;
+        }
+        contextoOrden.setOrden(ClonarObjeto(nuevaOrden));
+    };
+
+    const clickBorrar=(indice)=>{
+        swal({
+            title: "¿Seguro que desea borrar?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((isBorrar) => {
+                if (isBorrar) {
+                    var nuevaOrden=contextoOrden.orden;
+                    nuevaOrden.productosPorOrden.splice(indice, 1);
+                    contextoOrden.setOrden(ClonarObjeto(nuevaOrden));
+                } 
+            });
+        
+    };
+
     return (
         <div style={{'overflow':'scroll'}} id="modalEditar" class="modal bottom-sheet">
             <div class="modal-content">
@@ -20,12 +56,21 @@ export function ModalEditar(){
                         <tbody style={{ 'height': '500px', 'overflowY': 'scroll' }}>
                             {
 
-                                contextoOrden.orden.productosPorOrden.map((item) => {
+                                contextoOrden.orden.productosPorOrden.map((item,index) => {
                                     return (
                                         <tr>
-                                            <td><i style={{'font-size': '40px','cursor':'pointer'}} className="material-icons Large">add_circle</i><label style={{'font-size': '40px'}}>{item.cantidad}</label><i style={{'font-size': '40px','cursor':'pointer'}} className="material-icons Large">remove_circle</i> </td>
-                                            <td><p style={{'font-size': tamañoFuente}}> {item.productos.nombre}</p></td>
-                                            <td><i style={{'font-size': '40px','cursor':'pointer'}} className="material-icons Large">delete</i></td>
+                                            <td>
+                                                <i onClick={()=>{clickMas(index)}} style={{'font-size': '40px','cursor':'pointer'}} className="material-icons Large">add_circle</i>
+                                                <label style={{'font-size': '40px'}}>{item.cantidad}</label>
+                                                <i onClick={()=>{clickMenos(index)}} style={{'font-size': '40px','cursor':'pointer'}} className="material-icons Large">remove_circle</i> 
+                                            </td>
+                                            <td>
+                                                <p style={{'font-size': tamañoFuente}}> {item.productos.nombre}</p>
+                                            </td>
+                                            <td>
+                                                <i onClick={()=>{clickBorrar(index)}} style={{'font-size': '40px','cursor':'pointer','paddingRight':'20px'}} className="material-icons Large">delete</i>
+                                                <i style={{'font-size': '40px','cursor':'pointer'}} className="material-icons">message</i>
+                                            </td>
                                         </tr>
                                     );
                                 })

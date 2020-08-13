@@ -32,7 +32,7 @@ export function BarraDeBotones() {
             });
             return;
         }
-        var respuesta = await fetch(GetUrlApi()+'api/ordenes/anularOrden?id='+id, {
+        var respuesta = await fetch(GetUrlApi()+'/api/ordenes/anularOrden?id='+id, {
             method: 'put',
             headers: GetFetchHeaders()
         });
