@@ -50,8 +50,8 @@ export function ListaProductos(){
                             }
                             <tr>
                                 <td><strong>Total:{GetPrecioFormateado(ContextOrden.getTotal())}</strong></td>
-                                <td><strong>Subtotal:{GetPrecioFormateado(orden.subtotal)}</strong></td>
-                                <td><strong>Descuento:{GetPrecioFormateado(orden.descuentoTotal)}</strong></td>
+                                <td><strong>Subtotal:{GetPrecioFormateado(ContextOrden.getTotal()+ContextOrden.getDescuentoTotal())}</strong></td>
+                                <td><strong>Descuento:{GetPrecioFormateado(ContextOrden.getDescuentoTotal())}</strong></td>
                             </tr>
                         </tbody>
                     </table>

@@ -22,9 +22,9 @@ export function DescuentoPorcentaje() {
             nuevaOrden.descuentoTotal = 0;
         }
         const montoDescontar = nuevaOrden.total *(monto/100);
-        nuevaOrden.descuentoTotal = montoDescontar;
+        //nuevaOrden.descuentoTotal = montoDescontar;
         nuevaOrden.porcentajeDescuento = monto;
-        nuevaOrden.total -= montoDescontar;
+        //nuevaOrden.total -= montoDescontar;
         debugger
         contextoTomaPedido.setOrden(ClonarObjeto(nuevaOrden));
         cerrarModal();

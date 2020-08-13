@@ -46,7 +46,6 @@ export function TomaPedido() {
     const [cargandoProductos, setCargandoProductos] = useState(false);
     const [categorias, setCategorias] = useState([]);
     const [productos, setProductos] = useState([]);
-    const [tipoVenta, setTipoVenta] = useState({});
     const ContextoUsuario = useContext(UserContext);
     const tipoPedido = Number(localStorage.getItem('tipoPedido'));
     const [orden, setOrden] = useState({
@@ -71,16 +70,10 @@ export function TomaPedido() {
     const ClickProducto2 = (productoSeleccionado) => {
         let productosPorOrden = [];
         var total = 0;
-        //if (orden.porcentajeDescuento > 0) {
-        //    total = total + (GetPrecioPorTipoPedido(productoSeleccionado, tipoPedido) - (GetPrecioPorTipoPedido(productoSeleccionado, tipoPedido) * (orden.porcentajeDescuento/100)) * cantidad);
-        //} else {
-        //    total = total + (GetPrecioPorTipoPedido(productoSeleccionado, tipoPedido) * cantidad);
-        //}
         total = total + (GetPrecioPorTipoPedido(productoSeleccionado, tipoPedido) * cantidad);
         orden.productosPorOrden.map((producto) => {
             productosPorOrden.push(producto);
             producto.productosID = producto.productos.id;
-
             total = total + (GetPrecioPorTipoPedido(producto.productos, tipoPedido) * producto.cantidad);
         });
         productosPorOrden.push({ productos: productoSeleccionado, productosID: productoSeleccionado.id, ordenID: orden.id, cantidad:  cantidad });
@@ -101,6 +94,9 @@ export function TomaPedido() {
             const tipoPedidoID = localStorage.getItem('tipoPedido');
             nuevaOrden.tipoPedidoID = Number(tipoPedidoID);
             nuevaOrden.usuariosID = ContextoUsuario.usuario.id;
+            nuevaOrden.total=getTotal();
+            nuevaOrden.subtotal=getTotal()-getDescuentoTotal();
+            nuevaOrden.descuentoTotal=getDescuentoTotal();
             var respuesta = await fetch(GetUrlApi()+'/api/Ordenes', {
                 method: 'post',
                 headers: GetFetchHeaders(),
@@ -122,6 +118,9 @@ export function TomaPedido() {
 
     const ActualizarOrden =async () => {
         var data = orden;
+        data.total=getTotal();
+        data.subtotal=getTotal()-getDescuentoTotal();
+        data.descuentoTotal=getDescuentoTotal();
         var respuesta = await fetch(GetUrlApi()+'/api/Ordenes/' + orden.id, {
             method: 'put',
             headers: GetFetchHeaders(),
@@ -155,17 +154,29 @@ export function TomaPedido() {
         });
         
         var ordenSeleccionada = Number(localStorage.getItem('ordenSeleccionada'));
-        if (Number.isInteger(ordenSeleccionada) && ordenSeleccionada>0) {
+        
+        if (ordenSeleccionada>0) {
             getOrden(ordenSeleccionada).then((respuesta) => {
+                
+                GetTipoVenta(tipoPedido).then((result) => {
+                    let nuevaOrden=ClonarObjeto(respuesta);
+                    nuevaOrden.tipoPedido=result;
+                    setOrden(nuevaOrden);
+                });
+
                 setOrden(ClonarObjeto(respuesta));
             });
             
         }
-        GetTipoVenta(tipoPedido).then((result) => {
-            let nuevaOrden=ClonarObjeto(orden);
-            nuevaOrden.tipoPedido=result;
-            setOrden(nuevaOrden);
-        });
+        else{
+            GetTipoVenta(tipoPedido).then((result) => {
+                let nuevaOrden=ClonarObjeto(orden);
+                nuevaOrden.tipoPedido=result;
+                setOrden(nuevaOrden);
+            });
+        }
+
+        
        
     }, []);
 
@@ -174,8 +185,21 @@ export function TomaPedido() {
         orden.productosPorOrden.forEach((productoOrden)=>{
             res+= GetPrecioPorTipoPedido(productoOrden.productos, orden.tipoPedidoID)*productoOrden.cantidad;
         });
+        const descuentoPorc=getDescuentoTotal();
+        res-=descuentoPorc;
         return res;
     };
+    const getDescuentoTotal=()=>{
+        var totalOrden=0;
+        orden.productosPorOrden.forEach((productoOrden)=>{
+            totalOrden+= GetPrecioPorTipoPedido(productoOrden.productos, orden.tipoPedidoID)*productoOrden.cantidad;
+        });
+        var res=0;
+        if(orden.porcentajeDescuento>0){
+            res+= totalOrden*orden.porcentajeDescuento/100;
+        }
+        return res;
+    }
 
     return (
         <React.Fragment>
@@ -248,7 +272,8 @@ export function TomaPedido() {
                 CrearOrden: CrearOrden,
                 setCantidad: setCantidad,
                 setredirectRevisar: setredirectRevisar,
-                getTotal:getTotal
+                getTotal:getTotal,
+                getDescuentoTotal:getDescuentoTotal
             }}>
                 <ListaProductos />
                 <BarraDeBotones />
