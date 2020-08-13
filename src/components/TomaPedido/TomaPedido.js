@@ -3,10 +3,11 @@ import { Redirect } from 'react-router'
 import { BarraDeBotones } from '../TomaPedido/BarraDeBotones';
 import { TomaPedidoContext } from '../../Context/TomaPedidoContext';
 import { UserContext } from '../../Context/UserContext';
-import { GetPrecioPorTipoPedido, GetTipoVenta, ClonarObjeto, GetPrecioFormateado ,GetFetchHeaders,GetUrlApi} from '../Globales/FuncionesGlobales';
+import { GetPrecioPorTipoPedido, GetTipoVenta, ClonarObjeto ,GetFetchHeaders,GetUrlApi} from '../Globales/FuncionesGlobales';
 import { ModalPagar } from './ModalPagar';
 import { ModalDescuentos } from './ModalDescuentos';
 import { ModalEditar } from './ModalEditar';
+import { ListaProductos } from './ListaDeProductos';
 
 
 async function TraerCategorias() {
@@ -39,10 +40,6 @@ async function ClickCategoria(id, setStateProductos, setStateCarga) {
     return [];
 }
 
-
-
-
-
 export function TomaPedido() {
     const [redirectRevisar, setredirectRevisar] = useState(false);
     const [cargandoCategorias, setCargandoCategorias] = useState(true);
@@ -60,7 +57,9 @@ export function TomaPedido() {
         montoExactoDescuento: 0,
         sucursalesID: ContextoUsuario.usuario.sucursalesID,
         tipoPedidoID: tipoPedido,
-        descuentoTotal:0
+        tipoPedido:{},
+        descuentoTotal:0,
+        usuarios:ContextoUsuario.usuario
     });
 
     const [cantidad, setCantidad] = useState(1);
@@ -163,14 +162,15 @@ export function TomaPedido() {
             
         }
         GetTipoVenta(tipoPedido).then((result) => {
-            setTipoVenta(result);
+            let nuevaOrden=ClonarObjeto(orden);
+            nuevaOrden.tipoPedido=result;
+            setOrden(nuevaOrden);
         });
        
     }, []);
 
     const getTotal=()=>{
         var res=0;
-        debugger
         orden.productosPorOrden.forEach((productoOrden)=>{
             res+= GetPrecioPorTipoPedido(productoOrden.productos, orden.tipoPedidoID)*productoOrden.cantidad;
         });
@@ -242,72 +242,26 @@ export function TomaPedido() {
                         }
                     </div>
                 </div>
-                <div class="col s5">
-
-                    <div class="row">
-                        <div class="col s12 m5">
-                            <div class="card-panel teal">
-                                <span class="white-text">
-                                    <div class="row">
-                                        <div class="col s3">
-                                            Usuario: {ContextoUsuario.usuario.nombre}
-                                        </div>
-                                        <div class="col s3">{tipoVenta.descripcion}</div>
-                                        <div class="col s3">Orden: {(orden.id === 0) ? (<p>Nueva</p>) : (<p>{orden.id}</p>)}</div>
-                                        <div class="col s3">Clientes</div>
-                                    </div>
-                                    
-                                    
-                                 </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Cantidad</th>
-                                <th>Nombre</th>
-                                <th>Precio</th>
-                            </tr>
-                        </thead>
-                        <tbody style={{ 'height': '500px', 'overflowY': 'scroll' }}>
-                            {
-
-                                orden.productosPorOrden.map((item) => {
-                                    return (
-                                        <tr>
-                                            <td>{item.cantidad}</td>
-                                            <td>{item.productos.nombre}</td>
-                                            <td>{GetPrecioFormateado((GetPrecioPorTipoPedido(item.productos, orden.tipoPedidoID) * item.cantidad) ) }</td>
-                                        </tr>
-                                    );
-                                })
-                            }
-                            <tr>
-                                <td><strong>Total:{GetPrecioFormateado(getTotal())}</strong></td>
-                                <td><strong>Subtotal:{GetPrecioFormateado(orden.subtotal)}</strong></td>
-                                <td><strong>Descuento:{GetPrecioFormateado(orden.descuentoTotal)}</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-            
-
-            <TomaPedidoContext.Provider value={{
+                <TomaPedidoContext.Provider value={{
                 orden: orden,
                 setOrden: setOrden,
                 CrearOrden: CrearOrden,
                 setCantidad: setCantidad,
-                setredirectRevisar: setredirectRevisar
+                setredirectRevisar: setredirectRevisar,
+                getTotal:getTotal
             }}>
+                <ListaProductos />
                 <BarraDeBotones />
                 <ModalPagar />
                 <ModalDescuentos />
                 <ModalEditar />
             </TomaPedidoContext.Provider>
+                
+
+            </div>
+            
+
+            
             
         </React.Fragment>
         );
