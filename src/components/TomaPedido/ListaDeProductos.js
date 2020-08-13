@@ -48,6 +48,14 @@ export function ListaProductos(){
                                     );
                                 })
                             }
+
+                            {
+                                (orden.porcentajeDescuento>0)?(
+                                    <tr>
+                                            <td style={{'color':'#9e9e9e'}} colSpan="3">{orden.porcentajeDescuento}% de descuento {ContextOrden.getDescuentosPorPorcentaje()}</td>
+                                        </tr>
+                                ):(null)
+                            }
                             <tr>
                                 <td><strong>Total:{GetPrecioFormateado(ContextOrden.getTotal())}</strong></td>
                                 <td><strong>Subtotal:{GetPrecioFormateado(ContextOrden.getTotal()+ContextOrden.getDescuentoTotal())}</strong></td>

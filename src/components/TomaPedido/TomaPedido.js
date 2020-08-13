@@ -190,6 +190,12 @@ export function TomaPedido() {
         return res;
     };
     const getDescuentoTotal=()=>{
+        var res=0;
+        res+=getDescuentosPorPorcentaje();
+        return res;
+    }
+
+    const getDescuentosPorPorcentaje=()=>{
         var totalOrden=0;
         orden.productosPorOrden.forEach((productoOrden)=>{
             totalOrden+= GetPrecioPorTipoPedido(productoOrden.productos, orden.tipoPedidoID)*productoOrden.cantidad;
@@ -199,7 +205,7 @@ export function TomaPedido() {
             res+= totalOrden*orden.porcentajeDescuento/100;
         }
         return res;
-    }
+    };
 
     return (
         <React.Fragment>
@@ -267,14 +273,15 @@ export function TomaPedido() {
                     </div>
                 </div>
                 <TomaPedidoContext.Provider value={{
-                orden: orden,
-                setOrden: setOrden,
-                CrearOrden: CrearOrden,
-                setCantidad: setCantidad,
-                setredirectRevisar: setredirectRevisar,
-                getTotal:getTotal,
-                getDescuentoTotal:getDescuentoTotal
-            }}>
+                    orden: orden,
+                    setOrden: setOrden,
+                    CrearOrden: CrearOrden,
+                    setCantidad: setCantidad,
+                    setredirectRevisar: setredirectRevisar,
+                    getTotal:getTotal,
+                    getDescuentoTotal:getDescuentoTotal,
+                    getDescuentosPorPorcentaje:getDescuentosPorPorcentaje
+                }}>
                 <ListaProductos />
                 <BarraDeBotones />
                 <ModalPagar />
