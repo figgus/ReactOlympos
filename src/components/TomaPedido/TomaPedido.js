@@ -264,9 +264,10 @@ export function TomaPedido() {
                             ) : (null)
                         }
                         {
-                            productos.map((item) => {
+                            productos.map((item,i) => {
+                                const prefix='productos';
                                 return (
-                                    <a onClick={() => { ClickProducto2(item) }} href="javascript:void(0)" class="collection-item">{item.nombre}</a>
+                                    <a key={prefix+i} onClick={() => { ClickProducto2(item) }} href="javascript:void(0)" class="collection-item">{item.nombre}</a>
                                 )
                             })
                         }

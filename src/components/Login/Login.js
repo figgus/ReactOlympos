@@ -11,7 +11,6 @@ export function Login() {
 
     const BuscarUsuarioPorPin = async () => {
         const url = GetUrlApi()+'/api/Usuarios/GetUsuarioPorPin?pin=' + pin;
-        debugger
         var respuesta = await fetch(url, {
             method: 'get',
             headers: GetFetchHeaders()

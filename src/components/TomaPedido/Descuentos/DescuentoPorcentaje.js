@@ -8,24 +8,22 @@ export function DescuentoPorcentaje() {
     const M = window.M;
     useEffect(() => {
         GetDescuentos().then((result) => {
-
             setDescuentos(formatearArregloColumnas(result, 3));
         });
     }, []);
 
     const clickDescuentoPorcentaje = (monto) => {
-        debugger
         let nuevaOrden = contextoTomaPedido.orden;
         if (nuevaOrden.porcentajeDescuento > 0) {
+            if(nuevaOrden.porcentajeDescuento===monto){
+                monto=0;
+            }
             nuevaOrden.total +=nuevaOrden.descuentoTotal;
             nuevaOrden.porcentajeDescuento = 0;
             nuevaOrden.descuentoTotal = 0;
+            
         }
-        const montoDescontar = nuevaOrden.total *(monto/100);
-        //nuevaOrden.descuentoTotal = montoDescontar;
         nuevaOrden.porcentajeDescuento = monto;
-        //nuevaOrden.total -= montoDescontar;
-        debugger
         contextoTomaPedido.setOrden(ClonarObjeto(nuevaOrden));
         cerrarModal();
     };
@@ -36,20 +34,32 @@ export function DescuentoPorcentaje() {
     };
 
     return (
-        <React.Fragment>
+        <div>
+            <br />
             <br />
             {
                 descuentos.map((descuentos) => {
                     return (
                         <div className="row">
                             {
-                                descuentos.map((desc) => {
-
+                                descuentos.map((desc,i) => {
+                                    const prefix='descPorc';
                                     return (
-                                        <div className="col s3">
-                                            <a onClick={() => { clickDescuentoPorcentaje(desc.monto) }} style={{ 'paddingRight': '50px' }} className="waves-effect waves-light btn-large">
-                                                {desc.nombre} {desc.descripcion}
-                                            </a>
+                                        <div key={prefix+i} className="col s3">
+                                            {
+                                                (contextoTomaPedido.orden.porcentajeDescuento===desc.monto)?
+                                                (
+                                                    <a onClick={() => { clickDescuentoPorcentaje(desc.monto) }} style={{ 'paddingRight': '50px','background':'rgb(30 119 68)' }} className="waves-effect waves-light btn-large">
+                                                        {desc.nombre} {desc.descripcion}
+                                                    </a>
+                                                )
+                                                :(
+                                                    <a onClick={() => { clickDescuentoPorcentaje(desc.monto) }} style={{ 'paddingRight': '50px' ,'background':'rgb(37, 163, 91)'}} className="waves-effect waves-light btn-large">
+                                                        {desc.nombre} {desc.descripcion}
+                                                    </a>
+                                                )
+                                            }
+                                            
                                         </div>
                                     );
                                 })
@@ -58,6 +68,6 @@ export function DescuentoPorcentaje() {
                     )
                 })
             }
-        </React.Fragment>
+        </div>
         );
 }
