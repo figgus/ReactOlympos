@@ -1,5 +1,5 @@
 ﻿import React,{useContext,useEffect,useState} from 'react';
-import { GetDescuentos, ClonarObjeto } from '../../Globales/FuncionesGlobales';
+import { GetDescuentos, ClonarObjeto,FuncionGeneral } from '../../Globales/FuncionesGlobales';
 import { TomaPedidoContext} from '../../../Context/TomaPedidoContext';
 
 export function DescuentoMonto() {
@@ -19,10 +19,23 @@ export function DescuentoMonto() {
         cerrarModal();
     };
 
+    const setDescuentoExacto = () => {
+        var cantidad = Number(localStorage.getItem('montoIngresadoTeclado'));
+        debugger
+        let orden=ClonarObjeto(contextoTomaPedido.orden);
+        orden.montoExactoDescuento=cantidad;
+        contextoTomaPedido.setOrden(orden);
+    };
+
+    const clickMontoPersonalizado=()=>{
+        FuncionGeneral.setFuncion(setDescuentoExacto);
+    };
+
     const cerrarModal = () => {
         var instanciaTeclado = M.Modal.getInstance(document.getElementById('ModalDescuentos'));
         instanciaTeclado.close();
     };
+
     return (<React.Fragment>
         <div className="container">
             <br/>
@@ -38,25 +51,24 @@ export function DescuentoMonto() {
 
             <div className="row">
                 <div className="col s6">
-                    <a onClick={()=>{clickDescuentoMonto(5000)}} style={{'width':'80%','background':'rgb(37, 163, 91)'}} className="waves-effect waves-light btn-large">$5000</a>
+                    <a onClick={()=>{clickDescuentoMonto(5000)}} style={{'width':'80%','background':'rgb(37, 163, 91)'}} 
+                    className="waves-effect waves-light btn-large">$5000</a>
                 </div>
                 <div className="col s6">
-                    <a style={{'width':'80%','background':'rgb(37, 163, 91)'}} className="waves-effect waves-light btn-large">Otro monto</a>
+                    <a onClick={()=>{clickMontoPersonalizado()}} style={{'width':'80%','background':'rgb(37, 163, 91)'}} className="waves-effect waves-light btn-large modal-trigger"  href="#modalTeclado">Otro monto</a>
                 </div>
             </div>
             {
                 (contextoTomaPedido.orden.montoExactoDescuento>0)?
                 (
                     <div className="row">
+                        <div className="col s4"></div>
                         <div className="col s4">
+                            <a onClick={()=>{clickRemoverDescuento()}} style={{'width':'80%','background':'rgb(238, 70, 50)'}} 
+                            className="waves-effect waves-light btn-large" >Remover descuento</a>
+                        </div>
+                        <div className="col s4"></div>
                     </div>
-                    <div className="col s4">
-                        <a onClick={()=>{clickRemoverDescuento()}} style={{'width':'80%','background':'rgb(238, 70, 50)'}} className="waves-effect waves-light btn-large">Remover descuento</a>
-                    </div>
-                    <div className="col s4">
-                    
-                    </div>
-            </div>
                 ):(null)
             }
             

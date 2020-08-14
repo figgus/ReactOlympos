@@ -9,9 +9,7 @@ export function BarraDeBotones() {
     useEffect(() => {
         const M = window.M;
         var elems = document.querySelectorAll('.modal');
-        var instances = M.Modal.init(elems, {
-            
-        });
+        M.Modal.init(elems, {});
     }, []);
 
     const setCantidad = () => {
