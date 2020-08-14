@@ -34,7 +34,7 @@ export function DescuentoPorcentaje() {
     };
 
     return (
-        <div>
+        <div className="container">
             <br />
             <br />
             {
@@ -49,12 +49,12 @@ export function DescuentoPorcentaje() {
                                             {
                                                 (contextoTomaPedido.orden.porcentajeDescuento===desc.monto)?
                                                 (
-                                                    <a onClick={() => { clickDescuentoPorcentaje(desc.monto) }} style={{ 'paddingRight': '50px','background':'rgb(30 119 68)' }} className="waves-effect waves-light btn-large">
+                                                    <a onClick={() => { clickDescuentoPorcentaje(desc.monto) }} style={{ 'paddingRight': '50px','background':'rgb(30 119 68)','width':'60%' }} className="waves-effect waves-light btn-large">
                                                         {desc.nombre} {desc.descripcion}
                                                     </a>
                                                 )
                                                 :(
-                                                    <a onClick={() => { clickDescuentoPorcentaje(desc.monto) }} style={{ 'paddingRight': '50px' ,'background':'rgb(37, 163, 91)'}} className="waves-effect waves-light btn-large">
+                                                    <a onClick={() => { clickDescuentoPorcentaje(desc.monto) }} style={{ 'paddingRight': '50px' ,'background':'rgb(37, 163, 91)','width':'60%'}} className="waves-effect waves-light btn-large">
                                                         {desc.nombre} {desc.descripcion}
                                                     </a>
                                                 )

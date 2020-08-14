@@ -191,7 +191,7 @@ export function TomaPedido() {
     };
     const getDescuentoTotal=()=>{
         var res=0;
-        res+=getDescuentosPorPorcentaje();
+        res+=getDescuentosPorPorcentaje()+getDescuentosPorMonto();
         return res;
     }
 
@@ -206,6 +206,10 @@ export function TomaPedido() {
         }
         return res;
     };
+
+    const getDescuentosPorMonto=()=>{
+        return orden.montoExactoDescuento;
+    }
 
     return (
         <React.Fragment>

@@ -52,8 +52,16 @@ export function ListaProductos(){
                             {
                                 (orden.porcentajeDescuento>0)?(
                                     <tr>
-                                            <td style={{'color':'#9e9e9e'}} colSpan="3">{orden.porcentajeDescuento}% de descuento {ContextOrden.getDescuentosPorPorcentaje()}</td>
+                                            <td style={{'color':'#9e9e9e'}} colSpan="3">{orden.porcentajeDescuento}% de descuento {GetPrecioFormateado( ContextOrden.getDescuentosPorPorcentaje())}</td>
                                         </tr>
+                                ):(null)
+                            }
+                            
+                            {
+                                (orden.montoExactoDescuento>0)?(
+                                    <tr>
+                                        <td style={{'color':'#9e9e9e'}} colSpan="3">{GetPrecioFormateado(orden.montoExactoDescuento)} de descuento</td>
+                                    </tr>
                                 ):(null)
                             }
                             <tr>
