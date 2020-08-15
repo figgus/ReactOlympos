@@ -39,10 +39,15 @@ export function ListaProductos(){
                             {
 
                                 orden.productosPorOrden.map((item) => {
+                                    const descuentoPorcentaje=item.porcentajeDeDescuento;
+                                    var textoDescuentoUnitario='';
+                                    if(descuentoPorcentaje>0){
+                                        textoDescuentoUnitario='(-'+descuentoPorcentaje+'%)';
+                                    }
                                     return (
                                         <tr>
                                             <td>{item.cantidad}</td>
-                                            <td>{item.productos.nombre}</td>
+                                            <td>{item.productos.nombre}{textoDescuentoUnitario}</td>
                                             <td>{GetPrecioFormateado((GetPrecioPorTipoPedido(item.productos, orden.tipoPedidoID) * item.cantidad) ) }</td>
                                         </tr>
                                     );

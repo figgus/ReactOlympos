@@ -7,7 +7,7 @@ export function ModalDescuentos() {
     const M = window.M;
 
     useEffect(() => {
-        var instance = M.Tabs.init(document.querySelector('.tabs'), {});
+        M.Tabs.init(document.querySelector('.tabs'), {});
     });
 
     const clickTabPorcentaje = () => {
@@ -35,11 +35,11 @@ export function ModalDescuentos() {
                     </p></div>
                 <div id="monto" class="col s12">
                     <p>
-                    <DescuentoMonto />
+                        <DescuentoMonto />
                     </p>
                 </div>
                 <div id="producto" class="col s12"><p>
-                    <DescuentoProducto />
+                        <DescuentoProducto />
                 </p>
                 </div>
             </div>
