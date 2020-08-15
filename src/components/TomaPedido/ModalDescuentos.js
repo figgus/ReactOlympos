@@ -1,6 +1,7 @@
 ﻿import React, { useEffect } from 'react';
 import { DescuentoPorcentaje} from '../TomaPedido/Descuentos/DescuentoPorcentaje';
 import { DescuentoMonto } from '../TomaPedido/Descuentos/DescuentoMonto';
+import { DescuentoProducto } from '../TomaPedido/Descuentos/DescuentoProducto';
 
 export function ModalDescuentos() {
     const M = window.M;
@@ -38,8 +39,9 @@ export function ModalDescuentos() {
                     </p>
                 </div>
                 <div id="producto" class="col s12"><p>
-                    producto
-                </p></div>
+                    <DescuentoProducto />
+                </p>
+                </div>
             </div>
         </div>
         );
