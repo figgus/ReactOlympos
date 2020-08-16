@@ -183,7 +183,12 @@ export function TomaPedido() {
     const getTotal=()=>{
         var res=0;
         orden.productosPorOrden.forEach((productoOrden)=>{
-            res+= GetPrecioPorTipoPedido(productoOrden.productos, orden.tipoPedidoID)*productoOrden.cantidad;
+            var descuentoUnitario=0;
+            if(productoOrden.montoDescuento>0){
+                descuentoUnitario=productoOrden.montoDescuento;
+            }
+            res+= (GetPrecioPorTipoPedido(productoOrden.productos, orden.tipoPedidoID)-descuentoUnitario)*productoOrden.cantidad;
+            
         });
         const descuentoPorc=getDescuentoTotal();
         res-=descuentoPorc;
@@ -210,6 +215,17 @@ export function TomaPedido() {
     const getDescuentosPorMonto=()=>{
         return orden.montoExactoDescuento;
     }
+
+    const getTotalDescuentosUnitarios=()=>{
+        var res=0;
+        orden.productosPorOrden.forEach((productoOrden)=>{
+            if(productoOrden.montoDescuento>0){
+                res+=productoOrden.montoDescuento;
+            }
+            
+        });
+        return res;
+    };
 
     return (
         <React.Fragment>
@@ -285,7 +301,8 @@ export function TomaPedido() {
                     setredirectRevisar: setredirectRevisar,
                     getTotal:getTotal,
                     getDescuentoTotal:getDescuentoTotal,
-                    getDescuentosPorPorcentaje:getDescuentosPorPorcentaje
+                    getDescuentosPorPorcentaje:getDescuentosPorPorcentaje,
+                    getTotalDescuentosUnitarios:getTotalDescuentosUnitarios
                 }}>
                 <ListaProductos />
                 <BarraDeBotones />

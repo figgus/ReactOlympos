@@ -82,7 +82,6 @@ export function ModalPagar() {
 
     const abrirModalPagar = (medio) => {
         medioSeleccionado = medio;
-        debugger;
         var totalOrden = Number(localStorage.getItem('orden.total')) - getTotalPagado();
         document.getElementById('pin').value = totalOrden;
     };

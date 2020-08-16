@@ -5,6 +5,15 @@ import { GetPrecioFormateado,GetPrecioPorTipoPedido } from '../Globales/Funcione
 export function ListaProductos(){
     const ContextOrden = useContext(TomaPedidoContext);
     const orden=ContextOrden.orden;
+    const getPrecioProducto=(producto)=>{
+        var res= GetPrecioPorTipoPedido(producto.productos, orden.tipoPedidoID) ;
+        if(producto.montoDescuento){
+            res-=producto.montoDescuento;
+        }
+        
+        res=res*producto.cantidad;
+        return res;
+    };
     return (
         <div className="col s5">
 
@@ -20,8 +29,6 @@ export function ListaProductos(){
                                         <div class="col s3">Orden: {(orden.id === 0) ? (<p>Nueva</p>) : (<p>{orden.id}</p>)}</div>
                                         <div class="col s3">Clientes</div>
                                     </div>
-                                    
-                                    
                                  </span>
                             </div>
                         </div>
@@ -37,7 +44,6 @@ export function ListaProductos(){
                         </thead>
                         <tbody style={{ 'height': '500px', 'overflowY': 'scroll' }}>
                             {
-
                                 orden.productosPorOrden.map((item) => {
                                     const descuentoPorcentaje=item.porcentajeDeDescuento;
                                     var textoDescuentoUnitario='';
@@ -48,7 +54,7 @@ export function ListaProductos(){
                                         <tr>
                                             <td>{item.cantidad}</td>
                                             <td>{item.productos.nombre}{textoDescuentoUnitario}</td>
-                                            <td>{GetPrecioFormateado((GetPrecioPorTipoPedido(item.productos, orden.tipoPedidoID) * item.cantidad) ) }</td>
+                                            <td>{GetPrecioFormateado(getPrecioProducto(item)) }</td>
                                         </tr>
                                     );
                                 })
@@ -71,8 +77,8 @@ export function ListaProductos(){
                             }
                             <tr>
                                 <td><strong>Total:{GetPrecioFormateado(ContextOrden.getTotal())}</strong></td>
-                                <td><strong>Subtotal:{GetPrecioFormateado(ContextOrden.getTotal()+ContextOrden.getDescuentoTotal())}</strong></td>
-                                <td><strong>Descuento:{GetPrecioFormateado(ContextOrden.getDescuentoTotal())}</strong></td>
+                                <td><strong>Subtotal:{GetPrecioFormateado(ContextOrden.getTotal()+ContextOrden.getDescuentoTotal()+ContextOrden.getTotalDescuentosUnitarios())}</strong></td>
+                                <td><strong>Descuento:{GetPrecioFormateado(ContextOrden.getDescuentoTotal()+ContextOrden.getTotalDescuentosUnitarios())}</strong></td>
                             </tr>
                         </tbody>
                     </table>

@@ -52,7 +52,6 @@ export function CrearProducto() {
 
         const cboSucursales = document.getElementById('cboSucursales').options;
         console.log(cboSucursales);
-        debugger
         for (var i = 0; i < cboSucursales.length; i++) {
             if (cboSucursales[i].selected) {
                 producto.sucursalesAsociadas.push({

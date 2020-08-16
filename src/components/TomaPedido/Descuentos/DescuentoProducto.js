@@ -1,5 +1,5 @@
 import React,{useContext,useEffect,useState} from 'react';
-import { GetDescuentos, ClonarObjeto,formatearArregloColumnas } from '../../Globales/FuncionesGlobales';
+import { GetDescuentos, ClonarObjeto,formatearArregloColumnas,GetPrecioPorTipoPedido } from '../../Globales/FuncionesGlobales';
 import { TomaPedidoContext} from '../../../Context/TomaPedidoContext';
 
 export function DescuentoProducto() {
@@ -14,23 +14,38 @@ export function DescuentoProducto() {
     const productosFormateados=formatearArregloColumnas(contextoTomaPedido.orden.productosPorOrden,4);
 
     const clickDescuento=(porcentajeDescuento)=>{
-        debugger
         let orden=ClonarObjeto(contextoTomaPedido.orden);
         var productoOrdenEditar=orden.productosPorOrden[productoClickeado.indice];
         productoOrdenEditar.porcentajeDeDescuento=porcentajeDescuento;
+        productoOrdenEditar.montoDescuento=GetPrecioPorTipoPedido( productoOrdenEditar.productos,orden.tipoPedidoID)*(productoOrdenEditar.porcentajeDeDescuento/100);
+        setProductoClickeado(false);
         contextoTomaPedido.setOrden(orden);
+        cerrarModal();
     };
 
     const clickProducto=(producto,indice)=>{
+        debugger
         producto.indice=indice;
         setProductoClickeado(producto);
+    };
+
+    const removerDescuento=(producto,indice)=>{
+        clickProducto(producto,indice);
+        debugger
+        let orden=ClonarObjeto(contextoTomaPedido.orden);
+        var productoOrdenEditar=orden.productosPorOrden[indice];
+        productoOrdenEditar.porcentajeDeDescuento=0;
+        productoOrdenEditar.montoDescuento=0;
+        contextoTomaPedido.setOrden(orden);
+        setProductoClickeado(false);
+        cerrarModal();
     };
 
     useEffect(()=>{
         GetDescuentos().then((response)=>{
             setDescuentos(response);
         });
-    });
+    },[]);
 
     return (
         <div className="container">
@@ -73,13 +88,31 @@ export function DescuentoProducto() {
                         <div className="row">
                             {
                                 item.map((producto,i)=>{
-                                    return (
-                                        <div className="col s3">
-                                            <a onClick={()=>{clickProducto(producto,i)}} style={{'width':'80%','background':'rgb(37, 163, 91)'}} 
-                                            className="waves-effect waves-light btn-large">{producto.productos.nombre}</a>
-                                        </div>
-                                        
-                                    )
+                                    if(producto.productos){
+                                        debugger
+                                        return (
+                                            <div className="col s3">
+                                                {
+                                                    (producto.porcentajeDeDescuento>0)?(
+                                                        <a onClick={()=>{removerDescuento(producto,i)}} style={{'width':'80%','background':'rgb(30 119 68)'}} 
+                                                        className="waves-effect waves-light btn-large">
+                                                        {producto.productos.nombre}
+                                                        <span className="badge blue">
+                                                            {'-'+producto.porcentajeDeDescuento+'%'}
+                                                        </span>
+                                                    </a>
+                                                    ):
+                                                    (
+                                                        <a onClick={()=>{clickProducto(producto,i)}} style={{'width':'80%','background':'rgb(37, 163, 91)'}} 
+                                                            className="waves-effect waves-light btn-large">
+                                                            {producto.productos.nombre}
+                                                        </a>
+                                                    )
+                                                }
+                                                
+                                            </div>
+                                        )
+                                    }
                                 })
                             }
                         </div>

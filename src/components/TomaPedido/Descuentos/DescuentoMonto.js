@@ -21,7 +21,6 @@ export function DescuentoMonto() {
 
     const setDescuentoExacto = () => {
         var cantidad = Number(localStorage.getItem('montoIngresadoTeclado'));
-        debugger
         let orden=ClonarObjeto(contextoTomaPedido.orden);
         orden.montoExactoDescuento=cantidad;
         contextoTomaPedido.setOrden(orden);
