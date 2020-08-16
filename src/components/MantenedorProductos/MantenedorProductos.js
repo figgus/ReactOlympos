@@ -21,7 +21,6 @@ async function TraerCategorias() {
 export function MantenedorProductos() {
     const [categorias, setCategorias] = useState([]);
     const [productos, setProductos] = useState([]);
-    const [redirectCrearProducto, setRedirectCrearProducto] = useState(false);
     const [grupos, setGrupos] = useState([]);
     const [sucursales, setSucursales] = useState([]);
     const [familias, setfamilias] = useState([]);
@@ -34,13 +33,7 @@ export function MantenedorProductos() {
     const CargarProductosPorCategoria =async (categoriaID) => {
         setProductos(await ClickCategoria(categoriaID));
     };
-    const ClickCrearProducto = (id) => {
-        localStorage.setItem('idProducto',id);
-        setRedirectCrearProducto(true);
-    };
-    const ClickProducto = () => {
-        
-    };
+    
     const M = window.M;
 
     useEffect(() => {
@@ -63,7 +56,7 @@ export function MantenedorProductos() {
         });
 
         var elems = document.querySelectorAll('.autocomplete');
-        var instances = M.Autocomplete.init(elems, {
+         M.Autocomplete.init(elems, {
             data: {
                 "Apple": null,
                 "Microsoft": null,
@@ -72,11 +65,11 @@ export function MantenedorProductos() {
         });
 
         var elems2 = document.querySelectorAll('select');
-        var instances2 = M.FormSelect.init(elems2, {});
+         M.FormSelect.init(elems2, {});
 
         
         var elems3 = document.querySelectorAll('.modal');
-        var instances3 = M.Modal.init(elems3, {});
+        M.Modal.init(elems3, {});
 
 
     },[]);

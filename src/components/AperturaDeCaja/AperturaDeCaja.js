@@ -3,15 +3,16 @@ import { GetGavetas, ClonarObjeto, GetFetchHeaders,GetUrlApi } from '../Globales
 import { UserContext } from '../../Context/UserContext';
 
 export function AperturaDeCaja() {
-    const M = window.M;
+    
     const [gavetas, setGavetas] = useState([]);
     const ContextoUsuario = useContext(UserContext);
     const sucursalID = ContextoUsuario.usuario.sucursal.id;
     const usuariosID = ContextoUsuario.usuario.id;
 
     useEffect(() => {
+        const M = window.M;
         var elems = document.querySelectorAll('select');
-        var instances = M.FormSelect.init(elems, {});
+        M.FormSelect.init(elems, {});
 
         GetGavetas(sucursalID).then((result) => {
             setGavetas(ClonarObjeto(result));

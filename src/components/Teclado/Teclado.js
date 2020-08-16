@@ -1,5 +1,4 @@
-﻿import React, { useState, useEffect, useContext, Component } from 'react';
-import { UserContext } from '../../Context/UserContext';
+﻿import React, { useEffect } from 'react';
 import { FuncionGeneral } from '../Globales/FuncionesGlobales';
 
 export function TecladoNumerico() {
@@ -38,7 +37,7 @@ export function TecladoNumerico() {
     useEffect(() => {
         
         var elems = document.querySelectorAll('.modal');
-        var instances = M.Modal.init(elems, {
+        M.Modal.init(elems, {
             onOpenEnd: () => {
                
             },
@@ -52,7 +51,7 @@ export function TecladoNumerico() {
 
             
 
-            <div class="row">
+            <div className="row">
                 <div className="col s1"></div>
                 <div className="col s1"></div>
                 <div className="col s1"></div>
@@ -67,7 +66,7 @@ export function TecladoNumerico() {
                 <div className="col s1"></div>
             </div>
 
-            <div class="row">
+            <div className="row">
                 <div className="col s1"></div>
                 <div className="col s1"></div>
                 <div className="col s1"></div>
@@ -75,10 +74,10 @@ export function TecladoNumerico() {
                 <div className="col s1">
                     <a onClick={() => { ClickNumero("1") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 1</strong></a>
                 </div>
-                <div class="col s1">
+                <div className="col s1">
                     <a onClick={() => { ClickNumero("2") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 2</strong></a>
                 </div>
-                <div class="col s1">
+                <div className="col s1">
                     <a onClick={() => { ClickNumero("3") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 3</strong></a>
                 </div>
                 <div className="col s1"></div>
@@ -87,66 +86,66 @@ export function TecladoNumerico() {
                 <div className="col s1"></div>
                 <div className="col s1"></div>
             </div>
-            <div class="row">
-                <div class="col s1"></div>
-                <div class="col s1"></div>
-                <div class="col s1"></div>
-                <div class="col s1"></div>
-                <div class="col s1">
-                    <a onClick={() => { ClickNumero("4") }} class="btn-floating btn-large waves-effect waves-light green"><strong> 4</strong></a>
+            <div className="row">
+                <div className="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1">
+                    <a onClick={() => { ClickNumero("4") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 4</strong></a>
                 </div>
-                <div class="col s1">
-                    <a onClick={() => { ClickNumero("5") }} class="btn-floating btn-large waves-effect waves-light green"><strong> 5</strong></a>
+                <div className="col s1">
+                    <a onClick={() => { ClickNumero("5") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 5</strong></a>
                 </div>
-                <div class="col s1">
-                    <a onClick={() => { ClickNumero("6") }} class="btn-floating btn-large waves-effect waves-light green"><strong> 6</strong></a>
+                <div className="col s1">
+                    <a onClick={() => { ClickNumero("6") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 6</strong></a>
                 </div>
-                <div class="col s1"></div>
-                <div class="col s1"></div>
-                <div class="col s1"></div>
-                <div class="col s1"></div>
-                <div class="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1"></div>
             </div>
-            <div class="row">
-                <div class="col s1"></div>
-                <div class="col s1"></div>
-                <div class="col s1"></div>
-                <div class="col s1"></div>
-                <div class="col s1">
-                    <a onClick={() => { ClickNumero("7") }} class="btn-floating btn-large waves-effect waves-light green"><strong> 7</strong></a>
+            <div className="row">
+                <div className="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1">
+                    <a onClick={() => { ClickNumero("7") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 7</strong></a>
                 </div>
-                <div class="col s1">
-                    <a onClick={() => { ClickNumero("8") }} class="btn-floating btn-large waves-effect waves-light green"><strong> 8</strong></a>
+                <div className="col s1">
+                    <a onClick={() => { ClickNumero("8") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 8</strong></a>
                 </div>
-                <div class="col s1">
-                    <a onClick={() => { ClickNumero("9") }} class="btn-floating btn-large waves-effect waves-light green"><strong> 9</strong></a>
+                <div className="col s1">
+                    <a onClick={() => { ClickNumero("9") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 9</strong></a>
                 </div>
-                <div class="col s1"></div>
-                <div class="col s1"></div>
-                <div class="col s1"></div>
-                <div class="col s1"></div>
-                <div class="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1"></div>
             </div>
 
-            <div class="row">
-                <div class="col s1"></div>
-                <div class="col s1"></div>
-                <div class="col s1"></div>
-                <div class="col s1"></div>
-                <div class="col s1">
-                    <a onClick={() => { ClickBorrar() }} class="btn-floating btn-large waves-effect waves-light green"><i class="material-icons">clear</i> </a>
+            <div className="row">
+                <div className="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1">
+                    <a onClick={() => { ClickBorrar() }} className="btn-floating btn-large waves-effect waves-light green"><i className="material-icons">clear</i> </a>
                 </div>
-                <div class="col s1">
-                    <a onClick={() => { ClickNumero("0") }} class="btn-floating btn-large waves-effect waves-light green"><strong> 0</strong></a>
+                <div className="col s1">
+                    <a onClick={() => { ClickNumero("0") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 0</strong></a>
                 </div>
-                <div class="col s1">
-                    <a onClick={() => { ClickListo() }} class="btn-floating btn-large waves-effect waves-light green"><i class="material-icons">check</i></a>
+                <div className="col s1">
+                    <a onClick={() => { ClickListo() }} className="btn-floating btn-large waves-effect waves-light green"><i className="material-icons">check</i></a>
                 </div>
-                <div class="col s1"></div>
-                <div class="col s1"></div>
-                <div class="col s1"></div>
-                <div class="col s1"></div>
-                <div class="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1"></div>
+                <div className="col s1"></div>
             </div>
 
             </div>

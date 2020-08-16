@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, {  useContext } from 'react';
 import { TomaPedidoContext } from '../../Context/TomaPedidoContext';
 import {ClonarObjeto} from '../Globales/FuncionesGlobales';
 import swal from 'sweetalert';

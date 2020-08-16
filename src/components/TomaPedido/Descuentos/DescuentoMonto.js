@@ -1,5 +1,5 @@
-﻿import React,{useContext,useEffect,useState} from 'react';
-import { GetDescuentos, ClonarObjeto,FuncionGeneral } from '../../Globales/FuncionesGlobales';
+﻿import React,{useContext} from 'react';
+import {  ClonarObjeto,FuncionGeneral } from '../../Globales/FuncionesGlobales';
 import { TomaPedidoContext} from '../../../Context/TomaPedidoContext';
 
 export function DescuentoMonto() {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GetPrecioFormateado, formatearArregloColumnas, GetFetchHeaders,GetUrlApi} from '../Globales/FuncionesGlobales';
 import { ModalFiltroFecha } from '../Revisar/ModalFiltroFecha';
 import { RevisarContext } from '../../Context/ContextoRevisar';
@@ -82,19 +82,20 @@ export function Home() {
             <hr/>
             {
                 ordenes.map((setDeOrdenes, index) => {
-                    return (<div class="row">
+                    return (<div className="row">
                         {
-                            setDeOrdenes.map((orden) => {
+                            setDeOrdenes.map((orden,i) => {
+                                const prefijo='ordenesRevisar';
                                 if (orden.id) {
                                     return (
-                                        <div className="col s3">
+                                        <div key={prefijo+i} className="col s3">
                                             <Link to={String('' + orden.tipoPedido.descripcion).replace(/ /g, '')} onClick={() => { clickOrden(orden) }} style={{ 'cursor': 'pointer', 'color': 'inherit' }}>
-                                                <div class="card horizontal">
-                                                    <div class="card-stacked">
-                                                        <div class="card-content">
+                                                <div className="card horizontal">
+                                                    <div className="card-stacked">
+                                                        <div className="card-content">
                                                             <p style={{ 'fontWeight': 'bold'}}>Orden #{orden.numeroDeOrden}</p>
                                                         </div>
-                                                        <div class="card-action">
+                                                        <div className="card-action">
                                                             <p style={{ 'fontWeight': 'bold' }}>{orden.tipoPedido.descripcion}</p>
                                                             <p style={{ 'fontWeight': 'bold' }}>{GetPrecioFormateado(orden.total)}</p>
                                                             <p style={{ 'fontWeight': 'bold' }}>{new Date(orden.fecha).toLocaleString()}&nbsp;{orden.usuarios.nombre}&nbsp;{orden.usuarios.apellido}</p>
@@ -107,7 +108,7 @@ export function Home() {
                                 }
                                 else {
                                     return (
-                                        <div class="col s3">
+                                        <div className="col s3">
                                             <div>
                                                 
                                             </div>

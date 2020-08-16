@@ -7,7 +7,7 @@ export function Login() {
     const usuario = useContext(UserContext);
     const [redirectToRevisar, setRedirectToRevisar] = useState(false);
     const [pin, setPin] = useState('');
-    const M = window.M;
+    //const M = window.M;
 
     const BuscarUsuarioPorPin = async () => {
         const url = GetUrlApi()+'/api/Usuarios/GetUsuarioPorPin?pin=' + pin;
@@ -37,7 +37,7 @@ export function Login() {
     };
 
     useEffect(() => {
-        usuario.setUsuario({ nombre: 'Ninguno' });
+       // usuario.setUsuario({ nombre: 'Ninguno' });
         
     }, []);
 
@@ -46,56 +46,56 @@ export function Login() {
             {
                 (redirectToRevisar) ? (<Redirect to={'/Revisar'} />):(null)
             }
-            <div style={{ 'width': '25%' }} class="container">
-                <input id="pin" type="password" class="validate" value={pin} disabled={true} />
-                <div class="row">
-                    <div class="col s4">
-                        <a onClick={() => { ClickNumero("1") }} class="btn-floating btn-large waves-effect waves-light green"><strong> 1</strong></a>
+            <div style={{ 'width': '25%' }} className="container">
+                <input id="pin" type="password" className="validate" value={pin} disabled={true} />
+                <div className="row">
+                    <div className="col s4">
+                        <a onClick={() => { ClickNumero("1") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 1</strong></a>
                     </div>
-                    <div class="col s4">
-                        <a onClick={() => { ClickNumero("2") }} class="btn-floating btn-large waves-effect waves-light green"><strong> 2</strong></a>
+                    <div className="col s4">
+                        <a onClick={() => { ClickNumero("2") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 2</strong></a>
                     </div>
-                    <div class="col s4">
-                        <a onClick={() => { ClickNumero("3") }} class="btn-floating btn-large waves-effect waves-light green"><strong> 3</strong></a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s4">
-                        <a onClick={() => { ClickNumero("4") }} class="btn-floating btn-large waves-effect waves-light green"><strong> 4</strong></a>
-                    </div>
-                    <div class="col s4">
-                        <a onClick={() => { ClickNumero("5") }} class="btn-floating btn-large waves-effect waves-light green"><strong> 5</strong></a>
-                    </div>
-                    <div class="col s4">
-                        <a onClick={() => { ClickNumero("6") }} class="btn-floating btn-large waves-effect waves-light green"><strong> 6</strong></a>
+                    <div className="col s4">
+                        <a onClick={() => { ClickNumero("3") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 3</strong></a>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col s4">
-                        <a onClick={() => { ClickNumero("7") }} class="btn-floating btn-large waves-effect waves-light green"><strong> 7</strong></a>
+                <div className="row">
+                    <div className="col s4">
+                        <a onClick={() => { ClickNumero("4") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 4</strong></a>
                     </div>
-                    <div class="col s4">
-                        <a onClick={() => { ClickNumero("8") }} class="btn-floating btn-large waves-effect waves-light green"><strong> 8</strong></a>
+                    <div className="col s4">
+                        <a onClick={() => { ClickNumero("5") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 5</strong></a>
                     </div>
-                    <div class="col s4">
-                        <a onClick={() => { ClickNumero("9") }} class="btn-floating btn-large waves-effect waves-light green"><strong> 9</strong></a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s4">
-                        <a onClick={() => { setPin('')}} class="btn-floating btn-large waves-effect waves-light green">  <i class="material-icons">clear</i> </a>
-                    </div>
-                    <div class="col s4">
-                        <a onClick={() => { ClickNumero("0") }} class="btn-floating btn-large waves-effect waves-light green"><strong> 0</strong></a>
-                    </div>
-                    <div class="col s4">
-                        <a onClick={() => { BuscarUsuarioPorPin() }} class="btn-floating btn-large waves-effect waves-light green"> <i class="material-icons">check</i></a>
+                    <div className="col s4">
+                        <a onClick={() => { ClickNumero("6") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 6</strong></a>
                     </div>
                 </div>
-                <div  class="row">
-                    <div class="col s12 m5">
-                        <div id="userNotFound" style={{ 'display': 'none' }} class="card-panel teal">
-                            <span class="white-text">
+                <div className="row">
+                    <div className="col s4">
+                        <a onClick={() => { ClickNumero("7") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 7</strong></a>
+                    </div>
+                    <div className="col s4">
+                        <a onClick={() => { ClickNumero("8") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 8</strong></a>
+                    </div>
+                    <div className="col s4">
+                        <a onClick={() => { ClickNumero("9") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 9</strong></a>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col s4">
+                        <a onClick={() => { setPin('')}} className="btn-floating btn-large waves-effect waves-light green">  <i className="material-icons">clear</i> </a>
+                    </div>
+                    <div className="col s4">
+                        <a onClick={() => { ClickNumero("0") }} className="btn-floating btn-large waves-effect waves-light green"><strong> 0</strong></a>
+                    </div>
+                    <div className="col s4">
+                        <a onClick={() => { BuscarUsuarioPorPin() }} className="btn-floating btn-large waves-effect waves-light green"> <i className="material-icons">check</i></a>
+                    </div>
+                </div>
+                <div  className="row">
+                    <div className="col s12 m5">
+                        <div id="userNotFound" style={{ 'display': 'none' }} className="card-panel teal">
+                            <span className="white-text">
                                 Usuario no valido
                              </span>
                         </div>

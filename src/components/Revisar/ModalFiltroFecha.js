@@ -11,10 +11,10 @@ export function ModalFiltroFecha() {
 
     useEffect(() => {
         var elems = document.querySelectorAll('.modal');
-        var instances = M.Modal.init(elems, {});
+         M.Modal.init(elems, {});
 
         var elems1 = document.querySelectorAll('.datepicker');
-        var instances1 = M.Datepicker.init(elems1, GetOptionDatePicker());
+        M.Datepicker.init(elems1, GetOptionDatePicker());
     }, []);
 
     const clickBuscar = async() => {
@@ -34,18 +34,18 @@ export function ModalFiltroFecha() {
         instanciaTeclado.close();
     };
     return (
-        <div id="modalFiltroFecha" class="modal bottom-sheet">
+        <div id="modalFiltroFecha" className="modal bottom-sheet">
             <div style={{ 'paddingTop':'150px'}} className="container">
                 <div className="row">
                     <div className="col s1">
                         Desde:
                         <input id="fechaDesde" defaultValue={fechaActual} type="text" className="datepicker" />
                     </div>
-                    <div class="col s1">
+                    <div className="col s1">
                         Hasta
                         <input defaultValue={fechaActual} type="text" className="datepicker"/>
                     </div>
-                    <div class="col s1">
+                    <div className="col s1">
                         <a onClick={() => { clickBuscar() }} className="waves-effect waves-light btn-large"> <i style={{ 'fontSize': '60px' }} className="material-icons">search</i></a>
                     </div>
                 </div>

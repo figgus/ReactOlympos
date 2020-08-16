@@ -10,13 +10,7 @@ export function ModalDescuentos() {
         M.Tabs.init(document.querySelector('.tabs'), {});
     });
 
-    const clickTabPorcentaje = () => {
-        
-    };
 
-    const clickTabMonto = () => {
-
-    };
 
    
 

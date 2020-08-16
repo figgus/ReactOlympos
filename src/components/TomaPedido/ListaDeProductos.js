@@ -1,4 +1,4 @@
-import React,{useEffect,useContext} from 'react';
+import React,{useContext} from 'react';
 import { TomaPedidoContext } from '../../Context/TomaPedidoContext';
 import { GetPrecioFormateado,GetPrecioPorTipoPedido } from '../Globales/FuncionesGlobales';
 

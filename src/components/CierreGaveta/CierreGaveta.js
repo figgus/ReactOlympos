@@ -1,10 +1,10 @@
-﻿import React, { useState, useEffect, useContext } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { ModalGavetasDisponibles } from '../CierreGaveta/ModalGavetasDisponibles';
 import { contexto } from '../../Context/Contexto';
 import { GetMediosDePago, GetPrecioFormateado } from '../Globales/FuncionesGlobales';
 
 export function CierreGaveta() {
-    const M = window.M;
+    
     const [aperturaSeleccionada, setAperturaSeleccionada] = useState({});
     const [ordenes, setOrdenes] = useState([]);
     const [mediosDePago, setMediosDePago] = useState([]);
@@ -13,20 +13,18 @@ export function CierreGaveta() {
 
 
     useEffect(() => {
-        MostrarGavetasDisponibles();
+        const M = window.M;
+        var instanciaTeclado = M.Modal.getInstance(document.getElementById('ModalGavetasDisponibles'));
+        instanciaTeclado.open();
+
         GetMediosDePago().then((respuesta) => {
             setMediosDePago(respuesta);
         });
 
-        var calapsables = document.querySelectorAll('.collapsible');
-        var instancesColapsable = M.Collapsible.init(calapsables, {});
+         document.querySelectorAll('.collapsible');
+        //var instancesColapsable = M.Collapsible.init(calapsables, {});
 
     }, []);
-
-    const MostrarGavetasDisponibles = () => {
-    var instanciaTeclado = M.Modal.getInstance(document.getElementById('ModalGavetasDisponibles'));
-    instanciaTeclado.open();
-    };
 
     const totalRecaudado = () => {
         var res = 0;
