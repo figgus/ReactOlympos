@@ -33,6 +33,7 @@ export function ModalFiltroFecha() {
         var instanciaTeclado = M.Modal.getInstance(document.getElementById('modalFiltroFecha'));
         instanciaTeclado.close();
     };
+    
     return (
         <div id="modalFiltroFecha" className="modal bottom-sheet">
             <div style={{ 'paddingTop':'150px'}} className="container">

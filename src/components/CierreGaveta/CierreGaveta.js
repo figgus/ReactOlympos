@@ -2,15 +2,14 @@
 import { ModalGavetasDisponibles } from '../CierreGaveta/ModalGavetasDisponibles';
 import { contexto } from '../../Context/Contexto';
 import { GetMediosDePago, GetPrecioFormateado } from '../Globales/FuncionesGlobales';
+import { DetallesMedioDePago } from '../CierreGaveta/DetallesMedioDePago';
 
 export function CierreGaveta() {
-    
     const [aperturaSeleccionada, setAperturaSeleccionada] = useState({});
     const [ordenes, setOrdenes] = useState([]);
     const [mediosDePago, setMediosDePago] = useState([]);
     const [medioDePagoSeleccionado, setMedioDePagoSeleccionado] = useState({});
     const [todosLosPagos, setTodosLosPagos] = useState([]);
-
 
     useEffect(() => {
         const M = window.M;
@@ -22,7 +21,8 @@ export function CierreGaveta() {
         });
 
          document.querySelectorAll('.collapsible');
-        //var instancesColapsable = M.Collapsible.init(calapsables, {});
+
+         M.Tabs.init(document.querySelector('.tabs'), {});
 
     }, []);
 
@@ -42,28 +42,29 @@ export function CierreGaveta() {
 
         <br/>
         <br/>
+        
         <div className="container">
             <div class="row">
-                <div className="col s4">
-                    <a style={{ 'backgroundColor': '#6c757d' }} className="waves-effect waves-light btn-large">Arqueo</a>
-                </div>
-                <div className="col s4">
-                    <a style={{ 'backgroundColor': '#6c757d' }} className="waves-effect waves-light btn-large">Arqueo ciego</a>
-                </div>
-                <div className="col s4">
-                    <a style={{ 'backgroundColor': '#6c757d' }} className="waves-effect waves-light btn-large">Salida rapida</a>
-                </div>
-                <hr />
-
-
+              <div class="col s12">
+                <ul class="tabs">
+                  <li class="tab col s3 active"><a className="active" href="#test1">Arqueo</a></li>
+                  <li class="tab col s3"><a  href="#test2">Cierre Ciego</a></li>
+                  <li class="tab col s3"><a href="#test3">Salida rapida</a></li>
+                  <li class="tab col s3"><a href="#test4">Salir</a></li>
+                </ul>
+              </div>
+              
             </div>
-            <div className="row">
+            <div class="row">
+                <div id="test1" class="col s12">
+                <div className="row">
                 <div class="col s6">
                     <ul className="collection">
                     {
-                        mediosDePago.map((medio) => {
+                        mediosDePago.map((medio,i) => {
+                            const prefijo='medios'+i;
                             return (
-                                <li onClick={() => { clickMedioDePago(medio) }} className="collection-item">
+                                <li key={prefijo} onClick={() => { clickMedioDePago(medio) }} className="collection-item">
                                     <div className="row">
                                         <div style={{ 'cursor': 'pointer' }} className="col s8">
                                             <h3>{medio.nombre}</h3>
@@ -79,44 +80,17 @@ export function CierreGaveta() {
 
                     </ul>
                 </div>
-                <div style={{
-                    'borderBottom': '1px solid #e0e0e0',
-                    'borderRigth': '1px solid #e0e0e0',
-                    'borderLeft': '1px solid #e0e0e0',
-                    'borderTop': '1px solid #e0e0e0',
-                }} className="col s6">
-                    Pagos asociados a: {medioDePagoSeleccionado.nombre}
-                    {
-                        (todosLosPagos.filter(p => p.mediosDePagoID === medioDePagoSeleccionado.id).length === 0) ? (
-                            <p>No hay pagos</p>
-                        ): (null)
-                    }
-                    <table>
-                        <thead>
-                            <tr>
-                                <th># Orden</th>
-                                <th>Monto pagado</th>
-                                <th>Monto total</th>
-                                <th>Propina</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                    {
-                        todosLosPagos.filter(p => p.mediosDePagoID === medioDePagoSeleccionado.id)
-                            .map((medioPorOrden,i) => {
-                                return (<React.Fragment>
-                                    <tr>
-                                        <td>{GetPrecioFormateado(medioPorOrden.numeroDeOrden)}</td>
-                                        <td>{GetPrecioFormateado(medioPorOrden.montoPagadoReal)}</td>
-                                        <td>{GetPrecioFormateado(medioPorOrden.montoPagadoReal)}</td>
-                                        <td>0</td>
-                                    </tr>
-                                </React.Fragment>)
-                        })
-                    }
-                                    </tbody>
-                                    </table>
-                </div>
+                <contexto.Provider value={{
+                    aperturaSeleccionada: aperturaSeleccionada,
+                    setAperturaSeleccionada: setAperturaSeleccionada,
+                    setOrdenes: setOrdenes,
+                    setTodosLosPagos: setTodosLosPagos,
+                    medioDePagoSeleccionado:medioDePagoSeleccionado,
+                    todosLosPagos:todosLosPagos
+                }}>
+                    <ModalGavetasDisponibles />
+                    <DetallesMedioDePago />
+                </contexto.Provider>
             </div>
             <div className="row">
                 <div class="col s6">
@@ -127,21 +101,21 @@ export function CierreGaveta() {
                     <a style={{ 'backgroundColor': '#218838' }} className="waves-effect waves-light btn-large">Listo</a>
                 </div>
             </div>
+                </div>
+                <div id="test2" class="col s12">Test 2</div>
+                <div id="test3" class="col s12">Test 3</div>
+                <div id="test4" class="col s12">Test 4</div>
+            </div>
+            
             
             
             
         </div>
+        
         {aperturaSeleccionada.id}
 
 
-        <contexto.Provider value={{
-            aperturaSeleccionada: aperturaSeleccionada,
-            setAperturaSeleccionada: setAperturaSeleccionada,
-            setOrdenes: setOrdenes,
-            setTodosLosPagos: setTodosLosPagos,
-        }}>
-            <ModalGavetasDisponibles />
-        </contexto.Provider>
+        
         
         
     </React.Fragment>);

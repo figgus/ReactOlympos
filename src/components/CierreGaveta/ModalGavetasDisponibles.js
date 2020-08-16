@@ -66,7 +66,7 @@ export function ModalGavetasDisponibles() {
     useEffect(() => {
         getGavetasPendientes();
         var elems = document.querySelectorAll('.modal');
-        var instances = M.Modal.init(elems, {
+         M.Modal.init(elems, {
 
         });
 
