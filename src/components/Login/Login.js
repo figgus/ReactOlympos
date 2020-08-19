@@ -36,10 +36,10 @@ export function Login() {
         setPin(newPin);
     };
 
-    useEffect(() => {
+    /*useEffect(() => {
        // usuario.setUsuario({ nombre: 'Ninguno' });
         
-    }, []);
+    }, []);*/
 
     return (
         <React.Fragment>

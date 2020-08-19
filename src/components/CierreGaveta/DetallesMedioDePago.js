@@ -4,6 +4,25 @@ import { GetMediosDePago, GetPrecioFormateado } from '../Globales/FuncionesGloba
 
 export function DetallesMedioDePago(){
     const context = useContext(contexto);
+    const pagosMediosSeleccionados=context.todosLosPagos.filter(p => p.mediosDePagoID === context.medioDePagoSeleccionado.id);
+    const getTotalMontoPagado=()=>{
+        var res=0;
+        pagosMediosSeleccionados.map((pago)=>{
+            res+=pago.montoPagado;
+        });
+        return res;
+    };
+    const getTotalMontoTotal=()=>{
+        var res=0;
+        pagosMediosSeleccionados.map((pago)=>{
+            res+=pago.montoPagadoReal;
+        });
+        return res;
+    };
+    const getTotalPropinas=()=>{
+        return getTotalMontoPagado()-getTotalMontoTotal();
+    };
+    
 
     return (
         <div style={{
@@ -14,7 +33,7 @@ export function DetallesMedioDePago(){
             }} className="col s6">
             Pagos asociados a: {context.medioDePagoSeleccionado.nombre}
             {
-                (context.todosLosPagos.filter(p => p.mediosDePagoID === context.medioDePagoSeleccionado.id).length === 0) ? (
+                (pagosMediosSeleccionados.length === 0) ? (
                     <p>No hay pagos</p>
                 ): (null)
             }
@@ -29,8 +48,7 @@ export function DetallesMedioDePago(){
                 </thead>
                 <tbody>
             {
-                context.todosLosPagos.filter(p => p.mediosDePagoID === context.medioDePagoSeleccionado.id)
-                    .map((medioPorOrden,i) => {
+                pagosMediosSeleccionados.map((medioPorOrden,i) => {
                         const prefijo='medioPorOrden';
                         return (<React.Fragment key={prefijo+i}>
                             <tr>
@@ -42,6 +60,12 @@ export function DetallesMedioDePago(){
                         </React.Fragment>)
                 })
             }
+                <tr style={{'backgroundColor':'rgb(201 207 214)'}}>
+                    <td ><strong>Totales</strong></td>
+                    <td ><strong>{GetPrecioFormateado( getTotalMontoPagado())}</strong></td>
+                    <td ><strong>{GetPrecioFormateado(getTotalMontoTotal())}</strong></td>
+                    <td ><strong>{GetPrecioFormateado(getTotalPropinas())}</strong></td>
+                </tr>
                 </tbody>
             </table>
         </div>

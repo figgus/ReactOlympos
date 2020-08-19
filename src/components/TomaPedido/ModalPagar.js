@@ -63,6 +63,7 @@ export function ModalPagar() {
         datosOrden.mediosPorOrden = pagos;
         datosOrden.vuelto = getVuelto();
         contextoTomaPedido.setOrden(ClonarObjeto(datosOrden));
+        
         var respuesta = await fetch(GetUrlApi()+'/api/Ordenes/PagarOrden', {
             method: 'put',
             headers: GetFetchHeaders(),
@@ -72,7 +73,8 @@ export function ModalPagar() {
             setIsMostrarVuelto(true);
         }
         else {
-
+            console.log('fallo el pago de ');
+            console.log(JSON.stringify(datosOrden));
         }
     };
 

@@ -245,10 +245,10 @@ export function GetFetchHeaders() {
 
     return {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + document.cookie,
+        'Authorization': 'Bearer ' + document.cookie
     };
 }
 
 export function GetUrlApi(){
-    return 'https://localhost:44360';
+    return 'http://localhost:54479';
 }

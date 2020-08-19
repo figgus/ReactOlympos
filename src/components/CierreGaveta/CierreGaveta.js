@@ -86,7 +86,8 @@ export function CierreGaveta() {
                     setOrdenes: setOrdenes,
                     setTodosLosPagos: setTodosLosPagos,
                     medioDePagoSeleccionado:medioDePagoSeleccionado,
-                    todosLosPagos:todosLosPagos
+                    todosLosPagos:todosLosPagos,
+                    totalRecaudado:totalRecaudado
                 }}>
                     <ModalGavetasDisponibles />
                     <DetallesMedioDePago />

@@ -13,6 +13,7 @@ export function Home() {
             method: 'get',
             headers: GetFetchHeaders(),
         });
+        
         if (respuesta.ok) {
             const resOrdenes = await respuesta.json();
             const ordenesFormateadas = formatearArregloColumnas(resOrdenes,4); 

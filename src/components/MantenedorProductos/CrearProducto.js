@@ -51,7 +51,6 @@ export function CrearProducto() {
         producto.sucursalesAsociadas = [];
 
         const cboSucursales = document.getElementById('cboSucursales').options;
-        console.log(cboSucursales);
         for (var i = 0; i < cboSucursales.length; i++) {
             if (cboSucursales[i].selected) {
                 producto.sucursalesAsociadas.push({
@@ -61,7 +60,6 @@ export function CrearProducto() {
             
         }
 
-        console.log(JSON.stringify(producto));
         var respuesta = await fetch(GetUrlApi()+'api/Productos', {
             method: 'post',
             headers: GetFetchHeaders(),

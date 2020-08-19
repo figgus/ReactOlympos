@@ -110,6 +110,7 @@ export function TomaPedido() {
                 localStorage.setItem('orden.total', orden.total);
             }
             else {
+                console.log(JSON.stringify(nuevaOrden));
                 alert('error al crear orden');
             }
         }
