@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,useContext} from 'react';
 import { GetPrecioFormateado, formatearArregloColumnas, GetFetchHeaders,GetUrlApi} from '../Globales/FuncionesGlobales';
 import { ModalFiltroFecha } from '../Revisar/ModalFiltroFecha';
 import { RevisarContext } from '../../Context/ContextoRevisar';
 import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router'
+import { UserContext } from '../../Context/UserContext';
 
 export function Home() {
     const [ordenes, setOrdenes] = useState([]);
     const [redirectToTomaPedido, setRedirectToTomaPedido] = useState(false);
+    const ContextoUsuario=useContext(UserContext);
     const getOrdenes =async () => {
-        var respuesta = await fetch(GetUrlApi()+'/api/Ordenes', {
+        var respuesta = await fetch(GetUrlApi()+'/api/Ordenes?'+'sucursalID='+ContextoUsuario.usuario.sucursalesID, {
             method: 'get',
             headers: GetFetchHeaders(),
         });

@@ -1,10 +1,12 @@
 ﻿import React, { useState, useEffect, useContext } from 'react';
 import { GetOptionDatePicker, GetFetchHeaders} from '../Globales/FuncionesGlobales';
 import { RevisarContext } from '../../Context/ContextoRevisar';
+import { UserContext } from '../../Context/UserContext';
 
 
 export function ModalFiltroFecha() {
-    const ContextoUsuario = useContext(RevisarContext);
+    const ContextoRevisar = useContext(RevisarContext);
+    const ContextoUsuario=useContext(UserContext);
     const M = window.M;
     const [isVolver, setIsVolver] = useState(false);
     const fechaActual = new Date().toLocaleDateString();
@@ -19,12 +21,12 @@ export function ModalFiltroFecha() {
 
     const clickBuscar = async() => {
         const fecha = document.getElementById('fechaDesde').value;
-        var respuesta = await fetch('/api/Ordenes?fechaDesde=' + fecha, {
+        var respuesta = await fetch('/api/Ordenes?fechaDesde=' + fecha+'&sucursalID='+ContextoUsuario.usuario.sucursalesID, {
             method: 'get',
             headers: GetFetchHeaders()
         });
         if (respuesta.ok) {
-            ContextoUsuario.setOrdenes(ContextoUsuario.formatearArregloColumnas(await respuesta.json()));
+            ContextoRevisar.setOrdenes(ContextoRevisar.formatearArregloColumnas(await respuesta.json()));
             CerrarModal();
         }
     };
