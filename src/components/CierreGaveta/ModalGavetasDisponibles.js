@@ -22,7 +22,19 @@ export function ModalGavetasDisponibles() {
             headers: GetFetchHeaders()
         });
         if (respuesta.ok) {
-            setGavetas(await respuesta.json());
+            const resGavetas=await respuesta.json();
+            setGavetas(resGavetas);
+            debugger
+            if(resGavetas.length===0){
+                swal({
+                    title: "No hay gavetas con arqueo pendiente" ,
+                    icon: "error"
+                }).then(()=>{
+                    ContextoUsuario.setUsuario({
+                        nombre: 'Ninguno'
+                    });
+                });
+            }
         }
         else {
             swal({

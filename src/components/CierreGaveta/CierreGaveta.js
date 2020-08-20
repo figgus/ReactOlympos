@@ -1,8 +1,10 @@
-﻿import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect,useContext } from 'react';
 import { ModalGavetasDisponibles } from '../CierreGaveta/ModalGavetasDisponibles';
 import { contexto } from '../../Context/Contexto';
-import { GetMediosDePago, GetPrecioFormateado } from '../Globales/FuncionesGlobales';
+import { GetMediosDePago, GetPrecioFormateado,GetUrlApi,GetFetchHeaders } from '../Globales/FuncionesGlobales';
 import { DetallesMedioDePago } from '../CierreGaveta/DetallesMedioDePago';
+import { UserContext } from '../../Context/UserContext';
+import swal from 'sweetalert';
 
 export function CierreGaveta() {
     const [aperturaSeleccionada, setAperturaSeleccionada] = useState({});
@@ -10,7 +12,7 @@ export function CierreGaveta() {
     const [mediosDePago, setMediosDePago] = useState([]);
     const [medioDePagoSeleccionado, setMedioDePagoSeleccionado] = useState({});
     const [todosLosPagos, setTodosLosPagos] = useState([]);
-
+    const ContextoUsuario = useContext(UserContext);
     useEffect(() => {
         const M = window.M;
         var instanciaTeclado = M.Modal.getInstance(document.getElementById('ModalGavetasDisponibles'));
@@ -36,6 +38,62 @@ export function CierreGaveta() {
 
     const clickMedioDePago = (medioDePago) => {
         setMedioDePagoSeleccionado(medioDePago);
+    };
+
+    const clickListo=async()=>{
+        
+        var cierre={};
+        cierre.gavetasID=aperturaSeleccionada.gavetasID;
+        
+        var mediosPorCierre=[];
+        mediosDePago.forEach((medio,i)=>{
+            const campoRelacionado=document.getElementById(medio.nombre+i);
+            if(campoRelacionado){
+                
+                mediosPorCierre.push({
+                    mediosDePagoID:medio.id,
+                    monto:Number(campoRelacionado.value)
+                });
+            }
+            else{
+                alert('cago la generacion de los medios por cierre');
+            }
+        });
+        cierre.mediosPorCierre=mediosPorCierre;
+        cierre.ordenesCerrar=ordenes;
+        cierre.aperturaQueCierra=aperturaSeleccionada.id;
+        
+        var respuesta = await fetch(GetUrlApi()+'/api/CierreDeGavetas', {
+            method: 'post',
+            headers: GetFetchHeaders(),
+            body:JSON.stringify(cierre)
+        });
+        if (respuesta.ok) {
+            swal({
+                title: "Arqueo completado" ,
+                icon: "success"
+            }).then(()=>{
+                ContextoUsuario.setUsuario({
+                    nombre: 'Ninguno'
+                });
+            });
+        }
+    };
+
+    const isCamposRellenados=()=>{
+        var res = true;
+        mediosDePago.forEach((medio,i)=>{
+            debugger
+            const campoRelacionado=document.getElementById(medio.nombre+i);
+            if(campoRelacionado){
+                const isNumero=Number.isInteger(Number(campoRelacionado.value))
+                if(!isNumero){
+                    res=false;
+                }
+            }
+        });
+        
+        return res;
     };
 
     return (<React.Fragment>
@@ -70,7 +128,7 @@ export function CierreGaveta() {
                                             <h3>{medio.nombre}</h3>
                                         </div>
                                         <div className="col s4">
-                                            <input id="first_name" type="text" className="validate" />
+                                            <input  id={medio.nombre+i} type="text" className="validate" />
                                         </div>
                                     </div>
                                 </li>
@@ -99,7 +157,7 @@ export function CierreGaveta() {
                     <a style={{ 'backgroundColor': '#6c757d' }} className="waves-effect waves-light btn-large">Precalcular</a>
                 </div>
                 <div class="col s6">
-                    <a style={{ 'backgroundColor': '#218838' }} className="waves-effect waves-light btn-large">Listo</a>
+                    <a onClick={()=>{clickListo()}} style={{ 'backgroundColor': '#218838' }} className="waves-effect waves-light btn-large">Listo</a>
                 </div>
             </div>
                 </div>

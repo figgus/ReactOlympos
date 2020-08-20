@@ -228,6 +228,8 @@ export function TomaPedido() {
         return res;
     };
 
+    
+
     return (
         <React.Fragment>
             {(redirectRevisar) ? (<Redirect to={'/Login'} />) : (null)}
