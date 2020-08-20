@@ -249,10 +249,30 @@ export function GetFetchHeaders() {
     };
 }
 
-/*export function GetUrlApi(){
+export function GetUrlApi(){
     return 'http://localhost:54479';
 }
-*/
-export function GetUrlApi(){
+
+/*export function GetUrlApi(){
     return 'https://olymposapi.azurewebsites.net/';
+}*/
+
+
+
+export async function GetAperturaActual(estacionID) {
+    var respuesta = await fetch(GetUrlApi()+'/api/AperturaDeGavetas/GetAperturaActual?estacionesID='+estacionID, {
+        method: 'get',
+        headers: GetFetchHeaders()
+    });
+    if (respuesta.ok) {
+        try{
+            return await respuesta.json();
+        }catch(err){
+            return null;
+        }
+        
+    }
+    else{
+        return null;
+    }
 }

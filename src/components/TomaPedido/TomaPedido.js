@@ -3,7 +3,7 @@ import { Redirect } from 'react-router'
 import { BarraDeBotones } from '../TomaPedido/BarraDeBotones';
 import { TomaPedidoContext } from '../../Context/TomaPedidoContext';
 import { UserContext } from '../../Context/UserContext';
-import { GetPrecioPorTipoPedido, GetTipoVenta, ClonarObjeto ,GetFetchHeaders,GetUrlApi} from '../Globales/FuncionesGlobales';
+import { GetPrecioPorTipoPedido, GetTipoVenta, ClonarObjeto ,GetFetchHeaders,GetUrlApi,GetAperturaActual} from '../Globales/FuncionesGlobales';
 import { ModalPagar } from './ModalPagar';
 import { ModalDescuentos } from './ModalDescuentos';
 import { ModalEditar } from './ModalEditar';
@@ -62,7 +62,7 @@ export function TomaPedido() {
     });
 
     const [cantidad, setCantidad] = useState(1);
-
+    const [aperturaActual, setAperturaActual] = useState(null);
     const CargarCategorias = async () => {
         setCategorias(await TraerCategorias());
     };
@@ -177,7 +177,9 @@ export function TomaPedido() {
             });
         }
 
-        
+        GetAperturaActual(ContextoUsuario.usuario.estacionesID).then((response)=>{
+            setAperturaActual(response);
+        });
        
     }, []);
 
@@ -305,7 +307,8 @@ export function TomaPedido() {
                     getTotal:getTotal,
                     getDescuentoTotal:getDescuentoTotal,
                     getDescuentosPorPorcentaje:getDescuentosPorPorcentaje,
-                    getTotalDescuentosUnitarios:getTotalDescuentosUnitarios
+                    getTotalDescuentosUnitarios:getTotalDescuentosUnitarios,
+                    aperturaActual:aperturaActual
                 }}>
                 <ListaProductos />
                 <BarraDeBotones />

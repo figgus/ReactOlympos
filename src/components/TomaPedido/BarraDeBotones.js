@@ -55,16 +55,16 @@ export function BarraDeBotones() {
                 
             <div class="row">
                 <div class="col s2">
-                    <Link to="/Revisar" style={{ width: '100%', height: '100%', backgroundColor: '#ee4632' }} class="waves-effect waves-light btn"><i class="material-icons">arrow_back</i></Link>
+                    <Link to="/Revisar" style={{ width: '100%', height: '100%', backgroundColor: '#ee4632' }} className="waves-effect waves-light btn"><i class="material-icons">arrow_back</i></Link>
                 </div>
                     <div class="col s2">
-                        <a onClick={() => { clickAnular() }} style={{ width: '100%', height: '100%' }} class="waves-effect waves-light btn">Anular</a>
+                        <a onClick={() => { clickAnular() }} style={{ width: '100%', height: '100%' }} className="waves-effect waves-light btn">Anular</a>
                     </div>
                     <div class="col s2">
-                        <a style={{ width: '100%', height: '100%' }} class="waves-effect waves-light btn">Transferir</a>
+                        <a style={{ width: '100%', height: '100%' }} className="waves-effect waves-light btn">Transferir</a>
                     </div>
                     <div class="col s2">
-                        <a style={{ width: '100%', height: '100%', color: 'white' }} class="waves-effect waves-light btn modal-trigger" href="#modalEditar">Editar</a>
+                        <a style={{ width: '100%', height: '100%', color: 'white' }} className="waves-effect waves-light btn modal-trigger" href="#modalEditar">Editar</a>
                     </div>
                     <div class="col s2">
                         <a style={{ width: '100%', height: '100%', color: 'white'  }} className="waves-effect waves-light btn modal-trigger" href="#ModalDescuentos">Descuentos</a>
@@ -78,7 +78,7 @@ export function BarraDeBotones() {
                 <div class="col s2">
                     <a onClick={() => {
                         contextoTomaPedido.CrearOrden()
-                    }} style={{ width: '100%', height: '100%', color: 'white' }} class="waves-effect waves-light btn modal-trigger" href="#modal1">Pagar</a>
+                    }} style={{ width: '100%', height: '100%', color: 'white' }} className={(contextoTomaPedido.aperturaActual)?('waves-effect waves-light btn modal-trigger'):('waves-effect waves-light btn modal-trigger disabled')}href="#modal1">Pagar</a>
                 </div>
             </div>
            
