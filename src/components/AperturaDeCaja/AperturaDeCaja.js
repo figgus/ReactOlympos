@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect, useContext } from 'react';
-import { GetGavetas, ClonarObjeto, GetFetchHeaders,GetUrlApi } from '../Globales/FuncionesGlobales';
+import { GetGavetas, ClonarObjeto, GetFetchHeaders,GetUrlApi,GetAperturaActual } from '../Globales/FuncionesGlobales';
 import { UserContext } from '../../Context/UserContext';
 
 export function AperturaDeCaja() {
@@ -8,13 +8,20 @@ export function AperturaDeCaja() {
     const ContextoUsuario = useContext(UserContext);
     const sucursalID = ContextoUsuario.usuario.sucursal.id;
     const usuariosID = ContextoUsuario.usuario.id;
+    const [aperturaActual, setAperturaActual] = useState(null);
 
     useEffect(() => {
+        GetAperturaActual(ContextoUsuario.usuario.estacionesID).then((response)=>{
+            setAperturaActual(response);
+        });
         const M = window.M;
         var elems = document.querySelectorAll('select');
         M.FormSelect.init(elems, {});
 
         GetGavetas(sucursalID).then((result) => {
+            if(!result){
+                result=[]
+            }
             setGavetas(ClonarObjeto(result));
         });
     }, []);
@@ -61,11 +68,19 @@ export function AperturaDeCaja() {
 
                 <label style={{ 'paddingTop': '50px' }}>Fondo de caja</label>
                 <input id="txtFondoDeCaja" type="number" class="validate" />
-
                 <center>
-                    <a onClick={() => { CrearApertura() }} className="waves-effect waves-light btn-large ">Listo</a>
+                    <a onClick={() => { CrearApertura() }} className={(!aperturaActual)?("waves-effect waves-light btn-large "):("waves-effect waves-light btn-large disabled")}>Listo</a>
                 </center>
-                
+                {
+                    (!aperturaActual)?(null)
+                    :(
+                        <div class="nav-wrapper">
+                <div class="col s12">
+                  <label>Esta gaveta ya esta abierta</label>
+                </div>
+                </div>
+                    )
+                }
             </div>
             <div class="col s4"></div>
         </div>

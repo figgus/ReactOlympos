@@ -161,6 +161,7 @@ export async function GetGavetas(sucursalID) {
         headers: GetFetchHeaders()
     });
     if (respuesta.ok) {
+        debugger
         return await respuesta.json();
     }
 }

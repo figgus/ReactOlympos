@@ -167,7 +167,6 @@ export function TomaPedido() {
 
                 setOrden(ClonarObjeto(respuesta));
             });
-            
         }
         else{
             GetTipoVenta(tipoPedido).then((result) => {
