@@ -13,8 +13,10 @@ export function WrapperCierreGaveta() {
     const [mediosDePago, setMediosDePago] = useState([]);
     const [medioDePagoSeleccionado, setMedioDePagoSeleccionado] = useState({});
     const [todosLosPagos, setTodosLosPagos] = useState([]);
-    const [isTotalPrecalculado, setIsTotalPrecalculado] = useState(false);
+    const [isArqueoCiegoSeleccionado, setIsArqueoCiegoSeleccionado] = useState(false);
+    //const [isTotalPrecalculado, setIsTotalPrecalculado] = useState(false);
     const ContextoUsuario = useContext(UserContext);
+    console.log(ContextoUsuario);
     useEffect(() => {
         const M = window.M;
         var instanciaTeclado = M.Modal.getInstance(document.getElementById('ModalGavetasDisponibles'));
@@ -49,8 +51,13 @@ export function WrapperCierreGaveta() {
             <div class="row">
               <div class="col s12">
                 <ul class="tabs">
-                  <li class="tab col s3 active"><a className="active" href="#test1">Arqueo</a></li>
-                  <li class="tab col s3"><a  href="#test2">Cierre Ciego</a></li>
+                    {
+                        (ContextoUsuario.usuario.tipoUsuario.isAdmin)?(
+                            <li class="tab col s3 active"><a onClick={()=>{setIsArqueoCiegoSeleccionado(false)}} className="active" href="#test1">Arqueo</a></li>
+                        ):(null)
+                    }
+                  
+                  <li class="tab col s3"><a onClick={()=>{setIsArqueoCiegoSeleccionado(true)}} href="#test2">Cierre Ciego</a></li>
                   <li class="tab col s3"><a href="#test3">Salida rapida</a></li>
                   <li class="tab col s3"><a href="#test4">Salir</a></li>
                 </ul>
@@ -67,7 +74,8 @@ export function WrapperCierreGaveta() {
                 medioDePagoSeleccionado:medioDePagoSeleccionado,
                 setMedioDePagoSeleccionado:setMedioDePagoSeleccionado,
                 todosLosPagos:todosLosPagos,
-                totalRecaudado:totalRecaudado
+                totalRecaudado:totalRecaudado,
+                isArqueoCiegoSeleccionado:isArqueoCiegoSeleccionado
             }}>
                 <ModalGavetasDisponibles />
 
@@ -75,7 +83,9 @@ export function WrapperCierreGaveta() {
                     <div id="test1" class="col s12">
                         <CierreGaveta />
                     </div>
-                    <div id="test2" class="col s12">Test 2</div>
+                    <div id="test2" class="col s12">
+                        <CierreGaveta />
+                    </div>
                     <div id="test3" class="col s12">Test 3</div>
                     <div id="test4" class="col s12">Test 4</div>
                 </div>

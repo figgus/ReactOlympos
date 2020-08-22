@@ -201,19 +201,43 @@ export function CierreGaveta() {
                 }
             </div>
             <div className="row">
-                <div class="col s6">
-                    <p>Total recaudado: {GetPrecioFormateado( totalRecaudado())}</p>
+                <div class="col s12">
+                    <center>
+                    {
+                        (!Contexto.isArqueoCiegoSeleccionado && isTotalPrecalculado)?(
+                            <p>Total recaudado: {GetPrecioFormateado( totalRecaudado())}</p>
+                        ):(null)
+                    }
+                    
                     {
                         (isTotalPrecalculado)?(
                         getTextoDiferencia()
                             ):(null)
                     }
-                    <a onClick={()=>{clickPrecalcular()}} style={{ 'backgroundColor': '#6c757d' }} className="waves-effect waves-light btn-large">Precalcular</a>
+                    
+                    
+                    </center>
+               
                 </div>
-                <div class="col s6">
-                    <a onClick={()=>{clickListo()}} style={{ 'backgroundColor': '#218838' }} className={(isTotalPrecalculado)?("waves-effect waves-light btn-large "):("waves-effect waves-light btn-large disabled")}>Listo</a>
-                </div>
+                
             </div>
+            <div className="row">
+                <div className="col s3"></div>
+                <div className="col s3">
+                    {
+                        (!Contexto.isArqueoCiegoSeleccionado)?(
+                            <a style={{'width':'100%'}} onClick={()=>{clickPrecalcular()}} style={{ 'backgroundColor': '#6c757d' }} className="waves-effect waves-light btn-large">Precalcular</a>
+                        ):(null)
+                    }
+                    
+                </div>
+                <div className="col s3">
+                    <a onClick={()=>{clickListo()}} style={{ 'backgroundColor': '#218838','width':'100%' }} 
+                    className={(isTotalPrecalculado || Contexto.isArqueoCiegoSeleccionado)?("waves-effect waves-light btn-large "):("waves-effect waves-light btn-large disabled")}>Listo</a>
+                </div>
+                <div className="col s3"></div>
+            </div>
+            
     </React.Fragment>);
 }
 
