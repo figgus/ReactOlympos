@@ -12,6 +12,7 @@ import { Redirect } from 'react-router'
 import { TecladoNumerico } from './components/Teclado/Teclado';
 import { AperturaDeCaja } from './components/AperturaDeCaja/AperturaDeCaja';
 import { CierreGaveta } from './components/CierreGaveta/CierreGaveta';
+import {WrapperCierreGaveta} from '../src/components/CierreGaveta/WrapperCierreGaveta';
 
 export default function App () {
     const [usuario, setUsuario] = useState({ nombre: 'Ninguno' });
@@ -40,7 +41,7 @@ export default function App () {
                                 <Route exact path='/Administracion' component={Administracion} />
                                 <Route exact path='/Productos' component={MantenedorProductos} />
                                 <Route exact path='/Apertura' component={AperturaDeCaja} />
-                                <Route exact path='/Cierre' component={CierreGaveta} />
+                                <Route exact path='/Cierre' component={WrapperCierreGaveta} />
                             </React.Fragment>
                             )
                 }

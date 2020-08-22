@@ -6,6 +6,7 @@ import { DetallesMedioDePago } from '../CierreGaveta/DetallesMedioDePago';
 import { UserContext } from '../../Context/UserContext';
 import swal from 'sweetalert';
 
+
 export function CierreGaveta() {
     const [aperturaSeleccionada, setAperturaSeleccionada] = useState({});
     const [ordenes, setOrdenes] = useState([]);
@@ -14,6 +15,7 @@ export function CierreGaveta() {
     const [todosLosPagos, setTodosLosPagos] = useState([]);
     const [isTotalPrecalculado, setIsTotalPrecalculado] = useState(false);
     const ContextoUsuario = useContext(UserContext);
+    const Contexto = useContext(contexto);
     useEffect(() => {
         const M = window.M;
         var instanciaTeclado = M.Modal.getInstance(document.getElementById('ModalGavetasDisponibles'));
@@ -31,14 +33,14 @@ export function CierreGaveta() {
 
     const totalRecaudado = () => {
         var res = 0;
-        ordenes.forEach((orden) => {
+        Contexto.ordenes.forEach((orden) => {
             res += orden.total;
         });
         return res;
     };
 
     const clickMedioDePago = (medioDePago) => {
-        setMedioDePagoSeleccionado(medioDePago);
+        Contexto.setMedioDePagoSeleccionado(medioDePago);
     };
 
     const crearCierreGaveta=async()=>{
@@ -61,7 +63,7 @@ export function CierreGaveta() {
         });
         cierre.mediosPorCierre=mediosPorCierre;
         cierre.ordenesCerrar=ordenes;
-        cierre.aperturaQueCierra=aperturaSeleccionada.id;
+        cierre.aperturaQueCierra=Contexto.aperturaSeleccionada.id;
         
         var respuesta = await fetch(GetUrlApi()+'/api/CierreDeGavetas', {
             method: 'post',
@@ -105,13 +107,12 @@ export function CierreGaveta() {
 
     const clickPrecalcular=()=>{
         setIsTotalPrecalculado(true);
-
     };
 
     const getDiferenciaPagadoDeclarado=(medioDePago,indice)=>{
         var res=0;
         const montoDeclarado=Number(document.getElementById(medioDePago.nombre+indice).value);
-        todosLosPagos.filter(p=>p.mediosDePagoID===medioDePago.id).forEach((pago)=>{
+        Contexto.todosLosPagos.filter(p=>p.mediosDePagoID===medioDePago.id).forEach((pago)=>{
             res+=pago.montoPagado;
         });
         return res-montoDeclarado;
@@ -145,7 +146,7 @@ export function CierreGaveta() {
     const getSumTotalDeclarado=()=>{
         var res=0;
         mediosDePago.forEach((pago,i)=>{
-            debugger
+
             res+=Number(document.getElementById(pago.nombre+i).value);;
         });
         return res;
@@ -166,24 +167,6 @@ export function CierreGaveta() {
     };
 
     return (<React.Fragment>
-
-        <br/>
-        <br/>
-        
-        <div className="container">
-            <div class="row">
-              <div class="col s12">
-                <ul class="tabs">
-                  <li class="tab col s3 active"><a className="active" href="#test1">Arqueo</a></li>
-                  <li class="tab col s3"><a  href="#test2">Cierre Ciego</a></li>
-                  <li class="tab col s3"><a href="#test3">Salida rapida</a></li>
-                  <li class="tab col s3"><a href="#test4">Salir</a></li>
-                </ul>
-              </div>
-              
-            </div>
-            <div class="row">
-                <div id="test1" class="col s12">
                 <div className="row">
                 <div class="col s6">
                     <ul className="collection">
@@ -213,21 +196,9 @@ export function CierreGaveta() {
 
                     </ul>
                 </div>
-                <contexto.Provider value={{
-                    aperturaSeleccionada: aperturaSeleccionada,
-                    setAperturaSeleccionada: setAperturaSeleccionada,
-                    setOrdenes: setOrdenes,
-                    setTodosLosPagos: setTodosLosPagos,
-                    medioDePagoSeleccionado:medioDePagoSeleccionado,
-                    todosLosPagos:todosLosPagos,
-                    totalRecaudado:totalRecaudado
-                }}>
-                    <ModalGavetasDisponibles />
-                    {
-                        (isTotalPrecalculado)?(<DetallesMedioDePago />):(null)
-                    }
-                    
-                </contexto.Provider>
+                {
+                    (isTotalPrecalculado)?(<DetallesMedioDePago />):(null)
+                }
             </div>
             <div className="row">
                 <div class="col s6">
@@ -243,22 +214,6 @@ export function CierreGaveta() {
                     <a onClick={()=>{clickListo()}} style={{ 'backgroundColor': '#218838' }} className={(isTotalPrecalculado)?("waves-effect waves-light btn-large "):("waves-effect waves-light btn-large disabled")}>Listo</a>
                 </div>
             </div>
-                </div>
-                <div id="test2" class="col s12">Test 2</div>
-                <div id="test3" class="col s12">Test 3</div>
-                <div id="test4" class="col s12">Test 4</div>
-            </div>
-            
-            
-            
-            
-        </div>
-        
-
-
-        
-        
-        
     </React.Fragment>);
 }
 

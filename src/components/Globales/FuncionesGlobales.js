@@ -250,10 +250,10 @@ export function GetFetchHeaders() {
     };
 }
 
-/*export function GetUrlApi(){
-    return 'http://localhost:5000';
-}*/
 export function GetUrlApi(){
+    return 'http://localhost:5000';
+}
+/*export function GetUrlApi(){
     return 'http://localhost:54479';
 }
 /*export function GetUrlApi(){
