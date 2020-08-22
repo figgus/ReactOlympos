@@ -60,7 +60,7 @@ export function CrearProducto() {
             
         }
 
-        var respuesta = await fetch(GetUrlApi()+'api/Productos', {
+        var respuesta = await fetch(GetUrlApi()+'/api/Productos', {
             method: 'post',
             headers: GetFetchHeaders(),
             body: JSON.stringify(producto)

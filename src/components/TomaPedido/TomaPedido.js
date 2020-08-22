@@ -97,6 +97,7 @@ export function TomaPedido() {
             nuevaOrden.total=getTotal();
             nuevaOrden.subtotal=getTotal()-getDescuentoTotal();
             nuevaOrden.descuentoTotal=getDescuentoTotal();
+            nuevaOrden.aperturaDeGavetasID=aperturaActual.id;
             var respuesta = await fetch(GetUrlApi()+'/api/Ordenes', {
                 method: 'post',
                 headers: GetFetchHeaders(),
