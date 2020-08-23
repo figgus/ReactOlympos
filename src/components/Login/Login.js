@@ -2,6 +2,7 @@
 import { UserContext } from '../../Context/UserContext';
 import { Redirect } from 'react-router'
 import { GetFetchHeaders,GetUrlApi} from '../Globales/FuncionesGlobales';
+import swal from 'sweetalert';
 
 export function Login() {
     const usuario = useContext(UserContext);
@@ -14,7 +15,15 @@ export function Login() {
         var respuesta = await fetch(url, {
             method: 'get',
             headers: GetFetchHeaders()
+        }).catch((err)=>{
+            swal({
+                title: "Problema con el servidor, verifique su conexión a internet" ,
+                icon: "error"
+            })
         });
+        if(!respuesta){
+            return
+        }
         if (respuesta.ok) {
             const resupuestaUsuario = await respuesta.json();
             

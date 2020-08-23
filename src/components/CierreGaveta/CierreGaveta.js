@@ -62,13 +62,19 @@ export function CierreGaveta() {
             }
         });
         cierre.mediosPorCierre=mediosPorCierre;
-        cierre.ordenesCerrar=ordenes;
+        cierre.ordenesCerrar=Contexto.ordenes;
         cierre.aperturaQueCierra=Contexto.aperturaSeleccionada.id;
-        
+        cierre.isCierreCiego=Contexto.isArqueoCiegoSeleccionado;
         var respuesta = await fetch(GetUrlApi()+'/api/CierreDeGavetas', {
             method: 'post',
             headers: GetFetchHeaders(),
             body:JSON.stringify(cierre)
+        }).catch((err)=>{
+            console.log(err);
+            swal({
+                title: "Error al guardar el cierre" ,
+                icon: "error"
+            })
         });
         if (respuesta.ok) {
             swal({
@@ -167,6 +173,7 @@ export function CierreGaveta() {
     };
 
     return (<React.Fragment>
+                <h4></h4>
                 <div className="row">
                 <div class="col s6">
                     <ul className="collection">

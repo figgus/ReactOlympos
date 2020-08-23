@@ -2,7 +2,7 @@
 import { UserContext } from '../../Context/UserContext';
 import swal from 'sweetalert';
 import { contexto } from '../../Context/Contexto';
-import { ClonarObjeto, GetFetchHeaders,GetUrlApi} from '../Globales/FuncionesGlobales';
+import { ClonarObjeto, GetFetchHeaders,GetUrlApi,GetMediosDePago} from '../Globales/FuncionesGlobales';
 
 export function ModalGavetasDisponibles() {
     const M = window.M;
@@ -12,7 +12,20 @@ export function ModalGavetasDisponibles() {
 
     const clickApertura = (apertura) => {
         context.setAperturaSeleccionada(apertura);
-        getOrdenesPendientes(apertura.id);
+        
+        const isCierreCiego=(apertura.cierreDeGaveta)?(apertura.cierreDeGaveta.isCierreCiego):(false);
+        if(isCierreCiego){//si se carga una gaveta pendiente esto asigna los valores a cada input
+            GetMediosDePago().then((mediosDePago) => {
+                mediosDePago.forEach((medio,i)=>{
+                    debugger
+                    var inputMedioArqueo= document.getElementById(medio.nombre+i);
+                    if(inputMedioArqueo){
+                        inputMedioArqueo.value=apertura.cierreDeGaveta.mediosPorCierre.find(p=>p.mediosDePagoID===medio.id).monto;
+                    }
+                });
+            });
+        }
+        getOrdenesPendientes(apertura);
         cerrarModal();
     };
 
@@ -24,7 +37,6 @@ export function ModalGavetasDisponibles() {
         if (respuesta.ok) {
             const resGavetas=await respuesta.json();
             setGavetas(resGavetas);
-            debugger
             if(resGavetas.length===0){
                 swal({
                     title: "No hay gavetas con arqueo pendiente" ,
@@ -44,11 +56,19 @@ export function ModalGavetasDisponibles() {
         }
     };
 
-    const getOrdenesPendientes = async (idApertura) => {
-        var respuesta = await fetch(GetUrlApi()+'/api/Ordenes/GetOrdenesPendientes?aperturaID=' + idApertura, {
+    const getOrdenesPendientes = async (Apertura) => {
+        var respuesta = await fetch(GetUrlApi()+'/api/Ordenes/GetOrdenesPendientes?aperturaID=' + Apertura.id, {
             method: 'get',
             headers: GetFetchHeaders()
+        }).catch(()=>{
+            swal({
+                title: "Error al cargar las ordenes pendientes" ,
+                icon: "error"
+            })
         });
+        if(!respuesta){
+            return;
+        }
         if (respuesta.ok) {
             const res = await respuesta.json();
             const mediosDePago = [];
@@ -94,12 +114,13 @@ export function ModalGavetasDisponibles() {
                 <ul class="collection">
                 {
                         gavetas.map((apertura, i) => {
+                            const isCierreCiego=(apertura.cierreDeGaveta)?(apertura.cierreDeGaveta.isCierreCiego):(false);
                             return (
                                 <li onClick={() => { clickApertura(apertura) }} key={'gaveta' + i} style={{ 'cursor': 'pointer' }} className="collection-item avatar" >
 
                                 <div class="row">
                                     <div class="col s3">
-                                        <span style={{ 'color': '#25a35b' }} className="title"><strong>{apertura.gaveta.nombre}</strong></span>
+                            <span style={{ 'color': '#25a35b' }} className="title"><strong>{apertura.gaveta.nombre}{(isCierreCiego)?('(Cierre ciego)'):(null)}</strong></span>
                                     </div>
                                     <div class="col s3">
                                         {apertura.usuario.nombre}{' '}{apertura.usuario.apellido}

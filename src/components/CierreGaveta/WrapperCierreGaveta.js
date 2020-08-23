@@ -8,7 +8,10 @@ import swal from 'sweetalert';
 
 
 export function WrapperCierreGaveta() {
-    const [aperturaSeleccionada, setAperturaSeleccionada] = useState({});
+    const [aperturaSeleccionada, setAperturaSeleccionada] = useState(
+        {
+            cierreDeGaveta:{}
+        });
     const [ordenes, setOrdenes] = useState([]);
     const [mediosDePago, setMediosDePago] = useState([]);
     const [medioDePagoSeleccionado, setMedioDePagoSeleccionado] = useState({});
@@ -40,7 +43,19 @@ export function WrapperCierreGaveta() {
         return res;
     };
 
+    const clickCierreCiego=()=>{
+        if(!isCierreCiego()){
+            setIsArqueoCiegoSeleccionado(true)
+        }
+        
+    };
 
+    const isCierreCiego=()=>{
+        if(aperturaSeleccionada.cierreDeGaveta){
+            return aperturaSeleccionada.cierreDeGaveta.isCierreCiego;
+        }
+        return false;
+    };
 
     return (<React.Fragment>
 
@@ -53,13 +68,13 @@ export function WrapperCierreGaveta() {
                 <ul class="tabs">
                     {
                         (ContextoUsuario.usuario.tipoUsuario.isAdmin)?(
-                            <li class="tab col s3 active"><a onClick={()=>{setIsArqueoCiegoSeleccionado(false)}} className="active" href="#test1">Arqueo</a></li>
+                            <li className="tab col s3 active"><a onClick={()=>{setIsArqueoCiegoSeleccionado(false)}} className="active" href="#test1">Arqueo</a></li>
                         ):(null)
                     }
                   
-                  <li class="tab col s3"><a onClick={()=>{setIsArqueoCiegoSeleccionado(true)}} href="#test2">Cierre Ciego</a></li>
-                  <li class="tab col s3"><a href="#test3">Salida rapida</a></li>
-                  <li class="tab col s3"><a href="#test4">Salir</a></li>
+                  <li className={(!isCierreCiego())?("tab col s3"):("tab col s3 disabled")}><a onClick={()=>{clickCierreCiego()}} href="#test2">Cierre Ciego</a></li>
+                  <li className="tab col s3"><a href="#test3">Salida rapida</a></li>
+                  <li className="tab col s3"><a href="#test4">Salir</a></li>
                 </ul>
               </div>
               
@@ -75,7 +90,8 @@ export function WrapperCierreGaveta() {
                 setMedioDePagoSeleccionado:setMedioDePagoSeleccionado,
                 todosLosPagos:todosLosPagos,
                 totalRecaudado:totalRecaudado,
-                isArqueoCiegoSeleccionado:isArqueoCiegoSeleccionado
+                isArqueoCiegoSeleccionado:isArqueoCiegoSeleccionado,
+                isCierreCiego:isCierreCiego
             }}>
                 <ModalGavetasDisponibles />
 

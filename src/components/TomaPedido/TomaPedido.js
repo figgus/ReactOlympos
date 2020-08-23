@@ -58,7 +58,8 @@ export function TomaPedido() {
         tipoPedidoID: tipoPedido,
         tipoPedido:{},
         descuentoTotal:0,
-        usuarios:ContextoUsuario.usuario
+        usuarios:ContextoUsuario.usuario,
+        estacionesID:ContextoUsuario.usuario.estacionesID
     });
 
     const [cantidad, setCantidad] = useState(1);

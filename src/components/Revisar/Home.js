@@ -5,6 +5,7 @@ import { RevisarContext } from '../../Context/ContextoRevisar';
 import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router'
 import { UserContext } from '../../Context/UserContext';
+import swal from 'sweetalert';
 
 export function Home() {
     const [ordenes, setOrdenes] = useState([]);
@@ -14,8 +15,16 @@ export function Home() {
         var respuesta = await fetch(GetUrlApi()+'/api/Ordenes?'+'sucursalID='+ContextoUsuario.usuario.sucursalesID, {
             method: 'get',
             headers: GetFetchHeaders(),
+        }).catch((err)=>{
+            console.log(err);
+            swal({
+                title: "Error al cargar las ordenes" ,
+                icon: "error"
+            })
         });
-        
+        if(!respuesta){
+            return
+        }
         if (respuesta.ok) {
             const resOrdenes = await respuesta.json();
             const ordenesFormateadas = formatearArregloColumnas(resOrdenes,4); 
@@ -85,7 +94,7 @@ export function Home() {
             <hr/>
             {
                 ordenes.map((setDeOrdenes, index) => {
-                    return (<div className="row">
+                    return (<div key={'ordenesRevisar'+index} className="row">
                         {
                             setDeOrdenes.map((orden,i) => {
                                 const prefijo='ordenesRevisar';
@@ -101,7 +110,7 @@ export function Home() {
                                                         <div className="card-action">
                                                             <p style={{ 'fontWeight': 'bold' }}>{orden.tipoPedido.descripcion}</p>
                                                             <p style={{ 'fontWeight': 'bold' }}>{GetPrecioFormateado(orden.total)}</p>
-                                                            <p style={{ 'fontWeight': 'bold' }}>{new Date(orden.fecha).toLocaleString()}&nbsp;{orden.usuarios.nombre}&nbsp;{orden.usuarios.apellido}</p>
+                                                            <p style={{ 'fontWeight': 'bold' }}>{new Date(orden.fechaCreacion).toLocaleString()}&nbsp;{orden.usuarios.nombre}&nbsp;{orden.usuarios.apellido}</p>
                                                         </div>
                                                     </div>
                                                 </div>
