@@ -57,6 +57,58 @@ export function WrapperCierreGaveta() {
         return false;
     };
 
+    const clickSalidaRapida=()=>{
+        setIsArqueoCiegoSeleccionado(false);
+
+        swal({
+            title: "¿Esta seguro que desea continuar?",
+            text:"Si confirma esta gaveta quedará pendiente de arqueo",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((dejarPendiente) => {
+                if (dejarPendiente) {
+                    crearCierreRapido()
+                } 
+            });
+    };
+
+    const crearCierreRapido=async()=>{
+        var cierre={};
+        cierre.gavetasID=aperturaSeleccionada.gavetasID;
+        
+        var mediosPorCierre=[];
+        cierre.mediosPorCierre=mediosPorCierre;
+        cierre.ordenesCerrar=ordenes;
+        cierre.aperturaQueCierra=aperturaSeleccionada.id;
+        cierre.isCierreCiego=true;
+        var respuesta = await fetch(GetUrlApi()+'/api/CierreDeGavetas', {
+            method: 'post',
+            headers: GetFetchHeaders(),
+            body:JSON.stringify(cierre)
+        }).catch((err)=>{
+            console.log(err);
+            swal({
+                title: "Error al guardar el cierre" ,
+                icon: "error"
+            })
+        });
+        if(!respuesta){
+            return;
+        }
+        if (respuesta.ok) {
+            swal({
+                title: "Salida rapida exitosa" ,
+                icon: "success"
+            }).then(()=>{
+                ContextoUsuario.setUsuario({
+                    nombre: 'Ninguno'
+                });
+            });
+        }
+    };
+
     return (<React.Fragment>
 
         <br/>
@@ -73,7 +125,7 @@ export function WrapperCierreGaveta() {
                     }
                   
                   <li className={(!isCierreCiego())?("tab col s3"):("tab col s3 disabled")}><a onClick={()=>{clickCierreCiego()}} href="#test2">Cierre Ciego</a></li>
-                  <li className="tab col s3"><a href="#test3">Salida rapida</a></li>
+                  <li className="tab col s3"><a onClick={()=>{clickSalidaRapida()}} href="#test3">Salida rapida</a></li>
                   <li className="tab col s3"><a href="#test4">Salir</a></li>
                 </ul>
               </div>
@@ -102,7 +154,7 @@ export function WrapperCierreGaveta() {
                     <div id="test2" class="col s12">
                         <CierreGaveta />
                     </div>
-                    <div id="test3" class="col s12">Test 3</div>
+                    <div id="test3" class="col s12"></div>
                     <div id="test4" class="col s12">Test 4</div>
                 </div>
             </contexto.Provider>

@@ -43,7 +43,7 @@ export function DetallesMedioDePago(){
                         <th># Orden</th>
                         <th>Monto pagado</th>
                         <th>Monto total</th>
-                        <th>Propina</th>
+                        <th>{(context.medioDePagoSeleccionado.isEfectivo)?('Vuelto'):('Propina')}</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -1,5 +1,4 @@
 ﻿import React, { useState, useEffect,useContext } from 'react';
-import { ModalGavetasDisponibles } from '../CierreGaveta/ModalGavetasDisponibles';
 import { contexto } from '../../Context/Contexto';
 import { GetMediosDePago, GetPrecioFormateado,GetUrlApi,GetFetchHeaders } from '../Globales/FuncionesGlobales';
 import { DetallesMedioDePago } from '../CierreGaveta/DetallesMedioDePago';
@@ -12,7 +11,7 @@ export function CierreGaveta() {
     const [ordenes, setOrdenes] = useState([]);
     const [mediosDePago, setMediosDePago] = useState([]);
     const [medioDePagoSeleccionado, setMedioDePagoSeleccionado] = useState({});
-    const [todosLosPagos, setTodosLosPagos] = useState([]);
+    //const [todosLosPagos, setTodosLosPagos] = useState([]);
     const [isTotalPrecalculado, setIsTotalPrecalculado] = useState(false);
     const ContextoUsuario = useContext(UserContext);
     const Contexto = useContext(contexto);
@@ -119,7 +118,7 @@ export function CierreGaveta() {
         var res=0;
         const montoDeclarado=Number(document.getElementById(medioDePago.nombre+indice).value);
         Contexto.todosLosPagos.filter(p=>p.mediosDePagoID===medioDePago.id).forEach((pago)=>{
-            res+=pago.montoPagado;
+            res+=pago.montoPagadoReal;
         });
         return res-montoDeclarado;
     };
@@ -217,12 +216,8 @@ export function CierreGaveta() {
                     }
                     
                     {
-                        (isTotalPrecalculado)?(
-                        getTextoDiferencia()
-                            ):(null)
+                        (isTotalPrecalculado)?(getTextoDiferencia()):(null)
                     }
-                    
-                    
                     </center>
                
                 </div>

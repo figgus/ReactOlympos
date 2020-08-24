@@ -17,10 +17,10 @@ export function ModalGavetasDisponibles() {
         if(isCierreCiego){//si se carga una gaveta pendiente esto asigna los valores a cada input
             GetMediosDePago().then((mediosDePago) => {
                 mediosDePago.forEach((medio,i)=>{
-                    debugger
                     var inputMedioArqueo= document.getElementById(medio.nombre+i);
-                    if(inputMedioArqueo){
-                        inputMedioArqueo.value=apertura.cierreDeGaveta.mediosPorCierre.find(p=>p.mediosDePagoID===medio.id).monto;
+                    const mediosPorCierreAsociados=apertura.cierreDeGaveta.mediosPorCierre;
+                    if(inputMedioArqueo && apertura.cierreDeGaveta.mediosPorCierre.length>0 ){
+                        inputMedioArqueo.value=mediosPorCierreAsociados.find(p=>p.mediosDePagoID===medio.id).monto;
                     }
                 });
             });
