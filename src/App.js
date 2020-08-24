@@ -15,7 +15,7 @@ import { CierreGaveta } from './components/CierreGaveta/CierreGaveta';
 import {WrapperCierreGaveta} from '../src/components/CierreGaveta/WrapperCierreGaveta';
 
 export default function App () {
-    const [usuario, setUsuario] = useState({ nombre: 'Ninguno' });
+    const [usuario, setUsuario] = useState({ nombre: 'Ninguno',sucursal:{}});
     const [funcionSeleccionada, setFuncionSeleccionada] = useState(() => () => { });
     return (
         
