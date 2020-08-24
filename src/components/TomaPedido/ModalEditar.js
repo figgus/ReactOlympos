@@ -7,6 +7,7 @@ import swal from 'sweetalert';
 export function ModalEditar(){
     const contextoOrden = useContext(TomaPedidoContext);
     const tamañoFuente='20px';
+    const M=window.M;
 
     const clickMas=(indice)=>{
         var nuevaOrden=contextoOrden.orden;
@@ -41,6 +42,16 @@ export function ModalEditar(){
         
     };
 
+    const CerrarModal = () => {
+        var instanciaTeclado = M.Modal.getInstance(document.getElementById('modalEditar'));
+        instanciaTeclado.close();
+    };
+
+    const AbrirModalModificadores = () => {
+        var instanciaTeclado = M.Modal.getInstance(document.getElementById('modalModificadores'));
+        instanciaTeclado.open();
+    };
+
     return (
         <div style={{'overflow':'scroll'}} id="modalEditar" class="modal bottom-sheet">
             <div class="modal-content">
@@ -58,7 +69,7 @@ export function ModalEditar(){
 
                                 contextoOrden.orden.productosPorOrden.map((item,index) => {
                                     return (
-                                        <tr>
+                                        <tr key={'productosOrdenModificar'+index}>
                                             <td>
                                                 <i onClick={()=>{clickMas(index)}} style={{'font-size': '40px','cursor':'pointer'}} className="material-icons Large">add_circle</i>
                                                 <label style={{'font-size': '40px'}}>{item.cantidad}</label>
@@ -69,7 +80,7 @@ export function ModalEditar(){
                                             </td>
                                             <td>
                                                 <i onClick={()=>{clickBorrar(index)}} style={{'font-size': '40px','cursor':'pointer','paddingRight':'20px'}} className="material-icons Large">delete</i>
-                                                <i style={{'font-size': '40px','cursor':'pointer'}} className="material-icons">message</i>
+                                                <i onClick={()=>{AbrirModalModificadores()}} style={{'font-size': '40px','cursor':'pointer'}} className="material-icons">message</i>
                                             </td>
                                         </tr>
                                     );

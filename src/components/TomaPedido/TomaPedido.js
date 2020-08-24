@@ -8,6 +8,7 @@ import { ModalPagar } from './ModalPagar';
 import { ModalDescuentos } from './ModalDescuentos';
 import { ModalEditar } from './ModalEditar';
 import { ListaProductos } from './ListaDeProductos';
+import { ModalModificadores } from './ModalModificadores';
 
 
 async function TraerCategorias() {
@@ -316,6 +317,7 @@ export function TomaPedido() {
                 <ModalPagar />
                 <ModalDescuentos />
                 <ModalEditar />
+                <ModalModificadores/>
             </TomaPedidoContext.Provider>
                 
 
