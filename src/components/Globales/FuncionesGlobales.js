@@ -243,9 +243,9 @@ export function formatearArregloColumnas (resOrdenes, cantidadDeColumnas) {
 };
 
 export function GetFetchHeaders() {
-
     return {
         'Content-Type': 'application/json',
+        'Allow-Origin':'https://olymposapi.azurewebsites.net/',
         'Authorization': 'Bearer ' + document.cookie
     };
 }
@@ -259,8 +259,6 @@ export function GetUrlApi(){
 /*export function GetUrlApi(){
     return 'https://olymposapi.azurewebsites.net/';
 }*/
-
-
 
 export async function GetAperturaActual(estacionID) {
     var respuesta = await fetch(GetUrlApi()+'/api/AperturaDeGavetas/GetAperturaActual?estacionesID='+estacionID, {

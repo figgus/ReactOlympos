@@ -1,13 +1,16 @@
-import React, {  useContext } from 'react';
+import React, {useContext ,useState,useEffect} from 'react';
 import { TomaPedidoContext } from '../../Context/TomaPedidoContext';
 import {ClonarObjeto} from '../Globales/FuncionesGlobales';
 import swal from 'sweetalert';
+import { ModalModificadores } from './ModalModificadores';
 
 
 export function ModalEditar(){
     const contextoOrden = useContext(TomaPedidoContext);
     const tamañoFuente='20px';
     const M=window.M;
+    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+    
 
     const clickMas=(indice)=>{
         var nuevaOrden=contextoOrden.orden;
@@ -47,9 +50,18 @@ export function ModalEditar(){
         instanciaTeclado.close();
     };
 
-    const AbrirModalModificadores = () => {
+    const AbrirModalModificadores = (indice) => {
+        localStorage.setItem('productoSeleccionado',String(indice));
+        var instanciaTeclado = M.Modal.getInstance(document.getElementById('modalModificadores'));
+        //instanciaTeclado.open();
+    };
+
+    const clickProducto=(producto)=>{
+        setProductoSeleccionado(producto);
+        debugger
         var instanciaTeclado = M.Modal.getInstance(document.getElementById('modalModificadores'));
         instanciaTeclado.open();
+        
     };
 
     return (
@@ -66,10 +78,9 @@ export function ModalEditar(){
                         </thead>
                         <tbody style={{ 'height': '500px', 'overflowY': 'scroll' }}>
                             {
-
                                 contextoOrden.orden.productosPorOrden.map((item,index) => {
                                     return (
-                                        <tr key={'productosOrdenModificar'+index}>
+                                        <tr onClick={()=>{ clickProducto(item)}} key={'productosOrdenModificar'+index}>
                                             <td>
                                                 <i onClick={()=>{clickMas(index)}} style={{'font-size': '40px','cursor':'pointer'}} className="material-icons Large">add_circle</i>
                                                 <label style={{'font-size': '40px'}}>{item.cantidad}</label>
@@ -80,7 +91,7 @@ export function ModalEditar(){
                                             </td>
                                             <td>
                                                 <i onClick={()=>{clickBorrar(index)}} style={{'font-size': '40px','cursor':'pointer','paddingRight':'20px'}} className="material-icons Large">delete</i>
-                                                <i onClick={()=>{AbrirModalModificadores()}} style={{'font-size': '40px','cursor':'pointer'}} className="material-icons">message</i>
+                                                <i onClick={()=>{AbrirModalModificadores(index)}} style={{'font-size': '40px','cursor':'pointer'}} className="material-icons">message</i>
                                             </td>
                                         </tr>
                                     );
@@ -90,9 +101,12 @@ export function ModalEditar(){
                     </table>
                 </div>
             </div>
+            {
+                (productoSeleccionado)?(<ModalModificadores/>):(null)
+            }
         <div class="modal-footer">
             <a href="#!" class="modal-close waves-effect waves-green btn-flat">Listo</a>
         </div>
-  </div>
+    </div>
     );
 }

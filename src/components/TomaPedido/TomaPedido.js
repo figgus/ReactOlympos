@@ -10,7 +10,6 @@ import { ModalEditar } from './ModalEditar';
 import { ListaProductos } from './ListaDeProductos';
 import { ModalModificadores } from './ModalModificadores';
 
-
 async function TraerCategorias() {
     var respuesta = await fetch(GetUrlApi()+'/api/Categorias', {
         method: 'get',
@@ -32,7 +31,7 @@ async function ClickCategoria(id, setStateProductos, setStateCarga) {
         headers: GetFetchHeaders()
     });
     if (respuesta.ok) {
-        setStateProductos( await respuesta.json());
+        setStateProductos(await respuesta.json());
     }
     else {
         alert('error al traer los productos');
@@ -317,7 +316,7 @@ export function TomaPedido() {
                 <ModalPagar />
                 <ModalDescuentos />
                 <ModalEditar />
-                <ModalModificadores/>
+                
             </TomaPedidoContext.Provider>
                 
 
