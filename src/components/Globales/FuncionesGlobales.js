@@ -271,9 +271,27 @@ export async function GetAperturaActual(estacionID) {
         }catch(err){
             return null;
         }
-        
     }
     else{
         return null;
     }
+}
+
+export async function GetMensajesCocina() {
+    var respuesta = await fetch(GetUrlApi()+'/api/MensajesCocina', {
+        method: 'get',
+        headers: GetFetchHeaders()
+    }).catch(()=>{
+        console.log('error al traer GetMensajesCocina');
+    });
+    if(!respuesta){
+        return;
+    }
+    if (respuesta.ok) {
+        return await respuesta.json();
+    }
+}
+
+export function VerdeBoton(){
+    return 'rgb(37, 163, 91)';
 }

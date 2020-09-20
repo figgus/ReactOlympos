@@ -13,7 +13,7 @@ import { TecladoNumerico } from './components/Teclado/Teclado';
 import { AperturaDeCaja } from './components/AperturaDeCaja/AperturaDeCaja';
 import { CierreGaveta } from './components/CierreGaveta/CierreGaveta';
 import {WrapperCierreGaveta} from '../src/components/CierreGaveta/WrapperCierreGaveta';
-import {KDS} from '../src/components/KDS';
+import {KitchenDisplay} from '../src/components/KDS/KitchenDisplay';
 
 export default function App () {
     const [usuario, setUsuario] = useState({ nombre: 'Ninguno',sucursal:{}});
@@ -43,7 +43,7 @@ export default function App () {
                                 <Route exact path='/Productos' component={MantenedorProductos} />
                                 <Route exact path='/Apertura' component={AperturaDeCaja} />
                                 <Route exact path='/Cierre' component={WrapperCierreGaveta} />
-                                <Route exact path='/KitchenDisplay' component={KDS} />
+                                <Route exact path='/KitchenDisplay' component={KitchenDisplay} />
                             </React.Fragment>
                             )
                 }

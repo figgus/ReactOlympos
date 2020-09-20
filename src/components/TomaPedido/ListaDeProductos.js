@@ -53,7 +53,17 @@ export function ListaProductos(){
                                     return (
                                         <tr>
                                             <td>{item.cantidad}</td>
-                                            <td>{item.productos.nombre}{textoDescuentoUnitario}</td>
+                                            <td>{item.productos.nombre}{textoDescuentoUnitario}
+                                                {(item.mensajesProductos)?(
+                                                    item.mensajesProductos.map((mensaje)=>{
+
+                                                        return (<React.Fragment>
+                                                            <br/>
+                                                            <label>{mensaje.mensaje}</label>
+                                                        </React.Fragment>);
+                                                    })
+                                                ):(null)}
+                                            </td>
                                             <td>{GetPrecioFormateado(getPrecioProducto(item)) }</td>
                                         </tr>
                                     );

@@ -2,7 +2,7 @@ import React, {useContext ,useState,useEffect} from 'react';
 import { TomaPedidoContext } from '../../Context/TomaPedidoContext';
 import {ClonarObjeto} from '../Globales/FuncionesGlobales';
 import swal from 'sweetalert';
-import { ModalModificadores } from './ModalModificadores';
+import { MensajesCocina } from './MensajesCocina';
 
 
 export function ModalEditar(){
@@ -56,31 +56,37 @@ export function ModalEditar(){
         //instanciaTeclado.open();
     };
 
-    const clickProducto=(producto)=>{
+    const clickProducto=(producto,indice)=>{
         setProductoSeleccionado(producto);
-        debugger
+        localStorage.setItem('productoSeleccionado',String(indice));
+        //var instanciaTeclado = M.Modal.getInstance(document.getElementById('modalModificadores'));
+        //instanciaTeclado.open();
+        
+    };
+
+    const clickModificar=()=>{
         var instanciaTeclado = M.Modal.getInstance(document.getElementById('modalModificadores'));
         instanciaTeclado.open();
-        
     };
 
     return (
         <div style={{'overflow':'scroll'}} id="modalEditar" class="modal bottom-sheet">
+            
             <div class="modal-content">
                 <div className="container">
                     <table>
                         <thead>
                             <tr>
-                                <th style={{'font-size': tamañoFuente}}>Cantidad</th>
-                                <th style={{'font-size': tamañoFuente}}>Nombre</th>
-                                <th style={{'font-size': tamañoFuente}}>Acciones</th>
+                                <th style={{'fontSize': tamañoFuente}}>Cantidad</th>
+                                <th style={{'fontSize': tamañoFuente}}>Nombre</th>
+                                <th style={{'fontSize': tamañoFuente}}>Acciones</th>
                             </tr>
                         </thead>
                         <tbody style={{ 'height': '500px', 'overflowY': 'scroll' }}>
                             {
                                 contextoOrden.orden.productosPorOrden.map((item,index) => {
                                     return (
-                                        <tr onClick={()=>{ clickProducto(item)}} key={'productosOrdenModificar'+index}>
+                                        <tr onClick={()=>{ clickProducto(item,index)}} key={'productosOrdenModificar'+index}>
                                             <td>
                                                 <i onClick={()=>{clickMas(index)}} style={{'font-size': '40px','cursor':'pointer'}} className="material-icons Large">add_circle</i>
                                                 <label style={{'font-size': '40px'}}>{item.cantidad}</label>
@@ -91,7 +97,7 @@ export function ModalEditar(){
                                             </td>
                                             <td>
                                                 <i onClick={()=>{clickBorrar(index)}} style={{'font-size': '40px','cursor':'pointer','paddingRight':'20px'}} className="material-icons Large">delete</i>
-                                                <i onClick={()=>{AbrirModalModificadores(index)}} style={{'font-size': '40px','cursor':'pointer'}} className="material-icons">message</i>
+                                                <i onClick={()=>{clickModificar()}} style={{'font-size': '40px','cursor':'pointer'}} className="material-icons">message</i>
                                             </td>
                                         </tr>
                                     );
@@ -101,12 +107,11 @@ export function ModalEditar(){
                     </table>
                 </div>
             </div>
-            {
-                (productoSeleccionado)?(<ModalModificadores/>):(null)
-            }
+            
         <div class="modal-footer">
             <a href="#!" class="modal-close waves-effect waves-green btn-flat">Listo</a>
         </div>
     </div>
     );
 }
+

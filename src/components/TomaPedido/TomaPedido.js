@@ -59,7 +59,8 @@ export function TomaPedido() {
         tipoPedido:{},
         descuentoTotal:0,
         usuarios:ContextoUsuario.usuario,
-        estacionesID:ContextoUsuario.usuario.estacionesID
+        estacionesID:ContextoUsuario.usuario.estacionesID,
+        mensajesProductos:[]
     });
 
     const [cantidad, setCantidad] = useState(1);
@@ -77,7 +78,11 @@ export function TomaPedido() {
             producto.productosID = producto.productos.id;
             total = total + (GetPrecioPorTipoPedido(producto.productos, tipoPedido) * producto.cantidad);
         });
-        productosPorOrden.push({ productos: productoSeleccionado, productosID: productoSeleccionado.id, ordenID: orden.id, cantidad:  cantidad });
+        productosPorOrden.push({ productos: productoSeleccionado
+            , productosID: productoSeleccionado.id
+            , ordenID: orden.id
+            , cantidad:  cantidad,
+            mensajesProductos:[] });
         let OrdenFinal = ClonarObjeto(orden);
         OrdenFinal.productosPorOrden = productosPorOrden;
         OrdenFinal.total = total;
@@ -316,7 +321,7 @@ export function TomaPedido() {
                 <ModalPagar />
                 <ModalDescuentos />
                 <ModalEditar />
-                
+                <ModalModificadores/>
             </TomaPedidoContext.Provider>
                 
 
