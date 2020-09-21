@@ -1,13 +1,19 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { CrearProducto } from '../MantenedorProductos/CrearProducto'
 import { CrudProductosContext } from '../../Context/ContextoMantenedorProductos'
-import { GetFamilias, GetCategorias, GetGrupos, GetSucursales, GetFetchHeaders } from '../Globales/FuncionesGlobales'
+import { GetFamilias, GetCategorias, GetGrupos, GetSucursales, GetFetchHeaders,TraerProductosPorCategoria } from '../Globales/FuncionesGlobales'
 
 async function TraerCategorias() {
     var respuesta = await fetch('/api/Categorias', {
         method: 'get',
         headers: GetFetchHeaders()
+    }).catch((err)=>{
+        console.log(err)
+        alert('error al traer las categorias');
     });
+    if(!respuesta){
+        return;
+    }
     if (respuesta.ok) {
         return await respuesta.json();
     }
@@ -31,7 +37,8 @@ export function MantenedorProductos() {
         setCategorias(await TraerCategorias());
     };
     const CargarProductosPorCategoria =async (categoriaID) => {
-        setProductos(await ClickCategoria(categoriaID));
+        const res=await TraerProductosPorCategoria(categoriaID);
+        setProductos(res);
     };
     
     const M = window.M;
@@ -121,7 +128,13 @@ async function ClickCategoria(id) {
     var respuesta = await fetch('/api/Productos/GetProductosPorCategoria?categoriaID='+id, {
         method: 'get',
         headers: GetFetchHeaders()
+    }).catch((err)=>{
+        console.log(err);
+        alert('error al traer productos');
     });
+    if(!respuesta){
+        alert('fallo');
+    }
     if (respuesta.ok) {
         return await respuesta.json();
     }

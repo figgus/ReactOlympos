@@ -295,3 +295,17 @@ export async function GetMensajesCocina() {
 export function VerdeBoton(){
     return 'rgb(37, 163, 91)';
 }
+
+export async function TraerProductosPorCategoria(id){
+    var respuesta = await fetch(GetUrlApi()+'/api/Productos/GetProductosPorCategoria?categoriaID=' + id, {
+        method: 'get',
+        headers: GetFetchHeaders()
+    });
+    if (respuesta.ok) {
+        return await respuesta.json();
+    }
+    else {
+        alert('error al traer los productos');
+    }
+    return [];
+}
