@@ -23,7 +23,7 @@ export function ModalModificadores(){
         var orden=contextoOrden.orden;
         orden.productosPorOrden[indiceProducto].mensajesProductos.push(
             {
-                id:0,
+               // id:0,
                 productosPorOrdenID:orden.productosPorOrden[indiceProducto].id,
                 mensaje:mensaje
             }
