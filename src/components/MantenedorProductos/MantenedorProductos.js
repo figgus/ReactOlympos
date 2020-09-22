@@ -2,13 +2,13 @@
 import { CrearProducto } from '../MantenedorProductos/CrearProducto'
 import { CrudProductosContext } from '../../Context/ContextoMantenedorProductos'
 import { GetFamilias, GetCategorias, GetGrupos, GetSucursales, GetFetchHeaders,TraerProductosPorCategoria } from '../Globales/FuncionesGlobales'
+import { CrearCategoria } from '../MantenedorProductos/MantenedorCategoria/CrearCategoria'
 
 async function TraerCategorias() {
     var respuesta = await fetch('/api/Categorias', {
         method: 'get',
         headers: GetFetchHeaders()
     }).catch((err)=>{
-        console.log(err)
         alert('error al traer las categorias');
     });
     if(!respuesta){
@@ -30,6 +30,7 @@ export function MantenedorProductos() {
     const [grupos, setGrupos] = useState([]);
     const [sucursales, setSucursales] = useState([]);
     const [familias, setfamilias] = useState([]);
+    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
 
 
@@ -40,7 +41,15 @@ export function MantenedorProductos() {
         const res=await TraerProductosPorCategoria(categoriaID);
         setProductos(res);
     };
+
+    const ClickEditarProducto=(producto)=>{
+        setProductoSeleccionado(producto);
+    };
     
+    const ClickCrearProducto=()=>{
+        setProductoSeleccionado(null)
+    };
+
     const M = window.M;
 
     useEffect(() => {
@@ -83,25 +92,26 @@ export function MantenedorProductos() {
 
     return (
         <React.Fragment>
-            <div class="row">
-                <div class="col s2">
-                        <div class="collection">
+            <div className="row">
+                <div className="col s2">
+                        <div className="collection">
                             {
                                 categorias.map((item) => {
                                     return (
-                                        <a onClick={() => { CargarProductosPorCategoria(item.id) }} href="javascript:void(0)" class="collection-item">{item.descripcion}</a>
+                                        <a onClick={() => { CargarProductosPorCategoria(item.id) }} href="javascript:void(0)" className="collection-item">{item.descripcion}</a>
                                         )
                                 })
                             }
+                            <a href="#modalCrearCategoria" className="collection-item modal-trigger">  <i className="material-icons">add_circle</i> Nueva categoria </a>
                         </div>
                 </div>
                 <div class="col s5">
                     <div class="collection">
-                        <a href="#ModalCrearProducto" class="collection-item modal-trigger">Nuevo Producto</a>
+                        <a onClick={()=>{ClickCrearProducto()}} href="#ModalCrearProducto" className="collection-item modal-trigger">Nuevo Producto</a>
                         {
                             productos.map((item) => {
                                 return (
-                                    <a  href="javascript:void(0)" class="collection-item">{item.nombre}</a>
+                                    <a onClick={()=>{ClickEditarProducto(item)}} href="#ModalCrearProducto" className="collection-item modal-trigger">{item.nombre}</a>
                                 )
                             })
                         }
@@ -115,32 +125,13 @@ export function MantenedorProductos() {
                     categorias: categorias,
                     grupos: grupos,
                     familias: familias,
-                    sucursales: sucursales
+                    sucursales: sucursales,
+                    productoSeleccionado:productoSeleccionado
                 }
             }>
                 <CrearProducto />
+                <CrearCategoria />
             </CrudProductosContext.Provider>
 
         </React.Fragment>);
 }
-
-async function ClickCategoria(id) {
-    var respuesta = await fetch('/api/Productos/GetProductosPorCategoria?categoriaID='+id, {
-        method: 'get',
-        headers: GetFetchHeaders()
-    }).catch((err)=>{
-        console.log(err);
-        alert('error al traer productos');
-    });
-    if(!respuesta){
-        alert('fallo');
-    }
-    if (respuesta.ok) {
-        return await respuesta.json();
-    }
-    else {
-        alert('error al traer las categorias');
-    }
-    return [];
-}
-

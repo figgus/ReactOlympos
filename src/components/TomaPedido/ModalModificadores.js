@@ -19,7 +19,6 @@ export function ModalModificadores(){
 
     };
     const agregarMensajeCocina=(indiceProducto,mensaje)=>{
-        debugger
         var orden=contextoOrden.orden;
         orden.productosPorOrden[indiceProducto].mensajesProductos.push(
             {
@@ -32,7 +31,6 @@ export function ModalModificadores(){
     };
 
     const removerMensajeCocina=(indiceProducto,mensajeParam)=>{
-        debugger
         var orden=contextoOrden.orden;
         
         var indiceRemover=-1;
